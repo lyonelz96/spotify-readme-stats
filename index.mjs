@@ -22,14 +22,13 @@ app.get('/login', (req, res) => {
     state = nanoid()
     const scope = 'user-read-recently-played user-top-read'
 
-    res.redirect('https://accounts.spotify.com/authorize?' +
-        new URLSearchParams({
-            response_type: 'code',
-            client_id: process.env.CLIENT_ID,
-            scope: scope,
-            redirect_uri: redirect_uri,
-            state: state
-        }))
+    res.redirect(`https://accounts.spotify.com/authorize?${new URLSearchParams({
+        response_type: 'code',
+        client_id: process.env.CLIENT_ID,
+        scope: scope,
+        redirect_uri: redirect_uri,
+        state: state
+    })}`)
 })
 
 app.get('/auth/callback', async (req, res) => {
@@ -46,10 +45,8 @@ app.get('/auth/callback', async (req, res) => {
             'redirect_uri': redirect_uri
         })
 
-        const authBase64 = 'Basic ' +
-            (new Buffer(process.env.CLIENT_ID
-                + ':'
-                + process.env.CLIENT_SECRET).toString('base64'))
+        const authBase64 = `Basic ${Buffer.from(`${process.env.CLIENT_ID}:
+            ${process.env.CLIENT_SECRET}`).toString('base64')}`
 
         const config = {
             headers: {
