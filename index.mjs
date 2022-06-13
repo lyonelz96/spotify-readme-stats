@@ -11,6 +11,8 @@ import bodyParser from 'body-parser'
 const app = express()
 const port = 3000
 
+app.use(express.static('public'))
+
 app.use(morgan('dev'))
 
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -219,9 +221,8 @@ const genStyle = () => {
 }
 const genMediaObject = () => {
     return `
-    <div class="container" xmlns="http://www.w3.org/1999/xhtml">
         <div class="container-header-item">
-            <img src="https://place-hold.it/50x50" alt="Spotify Logo"/>
+            <img src="/images/spotify-logo.png" alt="Spotify Logo" width="50px" height="50px"/>
             <h1>Title</h1>
         </div>
 
@@ -231,7 +232,6 @@ const genMediaObject = () => {
             <img src="https://place-hold.it/50x50" alt="Spotify Logo"/>
             <h4>album/track/artist name</h4>
         </div>
-    </div>
     `
 }
 
@@ -241,12 +241,14 @@ const genSVG = () => {
             ${genStyle()}
             <rect />
             <foreignObject>
-                ${genMediaObject()}
+                <div class="container" xmlns="http://www.w3.org/1999/xhtml">
+                    ${genMediaObject()}
+                </div>
             </foreignObject>
         </svg>
     `
 }
 
 app.get('/svg', (req, res) => {
-    res.send(genSVG())
+    res.type('svg').send(genSVG())
 })
