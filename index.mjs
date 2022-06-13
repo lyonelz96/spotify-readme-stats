@@ -6,11 +6,15 @@ import axios from 'axios'
 
 import express from 'express'
 import morgan from 'morgan'
+import bodyParser from 'body-parser'
 
 const app = express()
 const port = 3000
 
 app.use(morgan('dev'))
+
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
     res.send('Hello World!')
@@ -31,6 +35,7 @@ app.get('/login', (req, res) => {
     })}`)
 })
 
+let data = null
 app.get('/auth/callback', async (req, res) => {
     if (req.query['error'] || req.query['state'] !== state) {
         res.redirect('/#' + new URLSearchParams({ error: 'state_mismatch' }))
@@ -58,6 +63,7 @@ app.get('/auth/callback', async (req, res) => {
         try {
             const res = await axios
                 .post('https://accounts.spotify.com/api/token', data, config)
+            data = res.data
         } catch (error) {
             console.error(error)
         }
