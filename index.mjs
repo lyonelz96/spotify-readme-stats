@@ -20,6 +20,10 @@ app.get('/', (req, res) => {
     res.send('Hello World!')
 })
 
+// .__.    , .     __. ,    ._._
+// [__]. .-+-|_   (__ -+-. .|,|,
+// |  |(_| | [ )  .__) | (_|| | 
+
 let state = null
 let redirect_uri = 'http://localhost:3000/auth/callback'
 app.get('/login', (req, res) => {
@@ -79,6 +83,12 @@ app.listen(port, () => {
     console.log(`Listening on ${port}`)
 })
 
+
+//  __.       ,  ._     .__..__ ._.   __. ,    ._._
+// (__ ._  _ -+-*|,  .  [__][__) |   (__ -+-. .|,|,
+// .__)[_)(_) | || \_|  |  ||   _|_  .__) | (_|| | 
+//     |           ._|                             
+
 const spotifyBaseURI = 'https://api.spotify.com/v1'
 
 const getRecentlyPlayedTracks = async () => {
@@ -132,3 +142,7 @@ const getUserTopItems = async (type) => {
 app.get('/top-items/:type', async (req, res) => {
     res.send(await getUserTopItems(req.params.type))
 })
+
+//  __..  ..__    __. ,    ._._
+// (__ \  /[ __  (__ -+-. .|,|,
+// .__) \/ [_./  .__) | (_|| | 
