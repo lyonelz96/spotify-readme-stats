@@ -35,7 +35,7 @@ app.get('/login', (req, res) => {
     })}`)
 })
 
-let data = null
+let authData = null
 app.get('/auth/callback', async (req, res) => {
     if (req.query['error'] || req.query['state'] !== state) {
         res.redirect('/#' + new URLSearchParams({ error: 'state_mismatch' }))
@@ -63,7 +63,7 @@ app.get('/auth/callback', async (req, res) => {
         try {
             const res = await axios
                 .post('https://accounts.spotify.com/api/token', data, config)
-            data = res.data
+            authData = res.data
         } catch (error) {
             console.error(error)
         }
@@ -77,4 +77,58 @@ app.get('/#', (req, res) => {
 
 app.listen(port, () => {
     console.log(`Listening on ${port}`)
+})
+
+const spotifyBaseURI = 'https://api.spotify.com/v1'
+
+const getRecentlyPlayedTracks = async () => {
+    const path = '/me/player/recently-played'
+    const url = `${spotifyBaseURI}${path}`
+    const config = {
+        headers: {
+            'Authorization': `Bearer ${authData.access_token}`,
+            'Content-Type': 'application/json'
+        },
+        params: {
+            'limit': 5
+        }
+    }
+
+    try {
+        const res = await axios.get(url, config)
+        return res.data
+    } catch (error) {
+        console.error(error)
+    }
+
+}
+
+app.get('/recently-played', async (req, res) => {
+    res.send(await getRecentlyPlayedTracks())
+})
+
+const getUserTopItems = async (type) => {
+    const path = `/me/top/${type}`
+    const url = `${spotifyBaseURI}${path}`
+    const config = {
+        headers: {
+            'Authorization': `Bearer ${authData.access_token}`,
+            'Content-Type': 'application/json'
+        },
+        params: {
+            'limit': 5,
+            'time_range': 'short_term'
+        }
+    }
+
+    try {
+        const res = await axios.get(url, config)
+        return res.data
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+app.get('/top-items/:type', async (req, res) => {
+    res.send(await getUserTopItems(req.params.type))
 })
