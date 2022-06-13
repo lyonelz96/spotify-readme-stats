@@ -219,16 +219,16 @@ const genStyle = () => {
 }
 const genMediaObject = () => {
     return `
-    <div class="container">
+    <div class="container" xmlns="http://www.w3.org/1999/xhtml">
         <div class="container-header-item">
-            <img src="https://place-hold.it/50x50" alt="Spotify Logo">
+            <img src="https://place-hold.it/50x50" alt="Spotify Logo"/>
             <h1>Title</h1>
         </div>
 
-        <hr>
+        <hr/>
 
         <div class="container-media-item">
-            <img src="https://place-hold.it/50x50" alt="Spotify Logo">
+            <img src="https://place-hold.it/50x50" alt="Spotify Logo"/>
             <h4>album/track/artist name</h4>
         </div>
     </div>
@@ -237,7 +237,7 @@ const genMediaObject = () => {
 
 const genSVG = () => {
     return `
-        <svg>
+        <svg xmlns="http://www.w3.org/2000/svg">
             ${genStyle()}
             <rect />
             <foreignObject>
