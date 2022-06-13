@@ -45,8 +45,8 @@ app.get('/auth/callback', async (req, res) => {
             'redirect_uri': redirect_uri
         })
 
-        const authBase64 = `Basic ${Buffer.from(`${process.env.CLIENT_ID}:
-            ${process.env.CLIENT_SECRET}`).toString('base64')}`
+        const authBuffer = Buffer.from(`${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`)
+        const authBase64 = `Basic ${authBuffer.toString('base64')}`
 
         const config = {
             headers: {
