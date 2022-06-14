@@ -108,7 +108,7 @@ const getRecentlyPlayedTracks = async () => {
 
     try {
         const res = await axios.get(url, config)
-        return res.data
+        return res.data.items
     } catch (error) {
         console.error(error)
     }
@@ -116,7 +116,22 @@ const getRecentlyPlayedTracks = async () => {
 }
 
 app.get('/recently-played', async (req, res) => {
-    res.send(await getRecentlyPlayedTracks())
+    const recentlyPlayed = await getRecentlyPlayedTracks()
+
+    let mediaObjs = ''
+
+    for (const item of recentlyPlayed) {
+        const song = item.track.name
+        const artist = item.track.artists[0].name
+        const coverURL = item.track.album.images[0].url
+
+        mediaObjs += genMediaObject(coverURL, null, song, artist)
+    }
+
+    const mediaHeader = genMediaHeader('Recently Played')
+    const svg = genSVG(mediaHeader, mediaObjs)
+
+    res.type('svg').send(svg)
 })
 
 const getUserTopItems = async (type) => {
@@ -219,30 +234,38 @@ const genStyle = () => {
         </style>
     `
 }
-const genMediaObject = () => {
+
+const genMediaHeader = (title) => {
     return `
         <div class="container-header-item">
             <img src="/images/spotify-logo.png" alt="Spotify Logo" width="50px" height="50px"/>
-            <h1>Title</h1>
+            <h1>${title}</h1>
         </div>
 
         <hr/>
-
+    `
+}
+const genMediaObject = (coverURL, album, song, artist) => {
+    return `
         <div class="container-media-item">
-            <img src="https://place-hold.it/50x50" alt="Spotify Logo"/>
-            <h4>album/track/artist name</h4>
+            <img src="${coverURL}" alt="Cover" width="50px" height="50px"/>
+            <div>
+                <h4>${song}</h4>
+                <h5>${artist}</h5>
+            </div>
         </div>
     `
 }
 
-const genSVG = () => {
+const genSVG = (mediaHeader, mediaObjs) => {
     return `
         <svg xmlns="http://www.w3.org/2000/svg">
             ${genStyle()}
             <rect />
             <foreignObject>
                 <div class="container" xmlns="http://www.w3.org/1999/xhtml">
-                    ${genMediaObject()}
+                    ${mediaHeader}
+                    ${mediaObjs}
                 </div>
             </foreignObject>
         </svg>
