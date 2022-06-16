@@ -9,6 +9,19 @@ let state = null
 
 const authController = {}
 
+authController.login = (req, res) => {
+    state = nanoid()
+    const scope = 'user-read-recently-played user-top-read'
+
+    res.redirect(`https://accounts.spotify.com/authorize?${new URLSearchParams({
+        response_type: 'code',
+        client_id: process.env.CLIENT_ID,
+        scope: scope,
+        redirect_uri: redirect_uri,
+        state: state
+    })}`)
+}
+
 authController.authCallback = async (req, res) => {
     if (req.query['error'] || req.query['state'] !== state) {
         res.redirect('/#' + new URLSearchParams({ error: 'state_mismatch' }))
@@ -43,17 +56,5 @@ authController.authCallback = async (req, res) => {
     }
 }
 
-authController.login = (req, res) => {
-    state = nanoid()
-    const scope = 'user-read-recently-played user-top-read'
-
-    res.redirect(`https://accounts.spotify.com/authorize?${new URLSearchParams({
-        response_type: 'code',
-        client_id: process.env.CLIENT_ID,
-        scope: scope,
-        redirect_uri: redirect_uri,
-        state: state
-    })}`)
-}
 
 export default authController
