@@ -2,7 +2,13 @@ import { nanoid } from 'nanoid'
 import { URLSearchParams } from 'url'
 import axios from 'axios'
 
-const redirect_uri = 'http://localhost:3000/auth/callback'
+import {
+    REDIRECT_URI,
+    CLIENT_SECRET,
+    CLIENT_ID,
+    AUTHORIZE_ENDPOINT,
+    TOKEN_ENDPOINT
+} from './auth.constants.mjs'
 
 let authData = null
 let state = null
@@ -13,11 +19,11 @@ authController.login = (req, res) => {
     state = nanoid()
     const scope = 'user-read-recently-played user-top-read'
 
-    res.redirect(`https://accounts.spotify.com/authorize?${new URLSearchParams({
+    res.redirect(`${AUTHORIZE_ENDPOINT}?${new URLSearchParams({
         response_type: 'code',
-        client_id: process.env.CLIENT_ID,
+        client_id: CLIENT_ID,
         scope: scope,
-        redirect_uri: redirect_uri,
+        redirect_uri: REDIRECT_URI,
         state: state
     })}`)
 }
@@ -32,10 +38,10 @@ authController.authCallback = async (req, res) => {
         const data = new URLSearchParams({
             'grant_type': 'authorization_code',
             'code': req.query['code'],
-            'redirect_uri': redirect_uri
+            'redirect_uri': REDIRECT_URI
         })
 
-        const authBuffer = Buffer.from(`${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`)
+        const authBuffer = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`)
         const authBase64 = `Basic ${authBuffer.toString('base64')}`
 
         const config = {
@@ -47,7 +53,7 @@ authController.authCallback = async (req, res) => {
 
         try {
             const res = await axios
-                .post('https://accounts.spotify.com/api/token', data, config)
+                .post(TOKEN_ENDPOINT, data, config)
             authData = res.data
         } catch (error) {
             console.error(error)
@@ -55,6 +61,5 @@ authController.authCallback = async (req, res) => {
 
     }
 }
-
 
 export default authController
