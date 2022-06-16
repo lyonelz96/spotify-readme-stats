@@ -46,3 +46,5 @@ userHelpers.getTopItems = async (type) => {
         console.error(error)
     }
 }
+
+export default userHelpers
