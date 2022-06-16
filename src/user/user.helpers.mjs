@@ -1,12 +1,12 @@
 import axios from "axios"
 
-const userHelpers = {}
+import { SPOTIFY_API_BASE_URI } from './user.constants.mjs'
 
-const spotifyBaseURI = 'https://api.spotify.com/v1'
+const userHelpers = {}
 
 userHelpers.getRecentlyPlayedTracks = async () => {
     const path = '/me/player/recently-played'
-    const url = `${spotifyBaseURI}${path}`
+    const url = `${SPOTIFY_API_BASE_URI}${path}`
     const config = {
         headers: {
             'Authorization': `Bearer ${authData.access_token}`,
@@ -27,7 +27,7 @@ userHelpers.getRecentlyPlayedTracks = async () => {
 
 userHelpers.getTopItems = async (type) => {
     const path = `/me/top/${type}`
-    const url = `${spotifyBaseURI}${path}`
+    const url = `${SPOTIFY_API_BASE_URI}${path}`
     const config = {
         headers: {
             'Authorization': `Bearer ${authData.access_token}`,
