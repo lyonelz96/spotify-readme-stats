@@ -106,3 +106,5 @@ svgHelpers.genSVG = (mediaHeader, mediaObjs) => {
         </svg>
     `
 }
+
+export default svgHelpers
