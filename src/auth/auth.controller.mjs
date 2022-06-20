@@ -4,8 +4,8 @@ import axios from 'axios'
 
 import {
     REDIRECT_URI,
-    CLIENT_SECRET,
-    CLIENT_ID,
+    SPOTIFY_CLIENT_SECRET,
+    SPOTIFY_CLIENT_ID,
     AUTHORIZE_ENDPOINT,
     TOKEN_ENDPOINT
 } from './auth.constants.mjs'
@@ -21,7 +21,7 @@ authController.login = (req, res) => {
 
     res.redirect(`${AUTHORIZE_ENDPOINT}?${new URLSearchParams({
         response_type: 'code',
-        client_id: CLIENT_ID,
+        client_id: SPOTIFY_CLIENT_ID,
         scope: scope,
         redirect_uri: REDIRECT_URI,
         state: state
@@ -41,7 +41,7 @@ authController.authCallback = async (req, res) => {
             'redirect_uri': REDIRECT_URI
         })
 
-        const authBuffer = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`)
+        const authBuffer = Buffer.from(`${SPOTIFY_CLIENT_ID}:${SPOTIFY_CLIENT_SECRET}`)
         const authBase64 = `Basic ${authBuffer.toString('base64')}`
 
         const config = {
