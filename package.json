@@ -4,7 +4,7 @@
   "description": "Spotify stats for your github README",
   "main": "index.mjs",
   "scripts": {
-      "start": "node ./src/index.mjs"
+    "start": "node ./src/index.mjs"
   },
   "author": "lyonelz96",
   "license": "ISC",
@@ -14,6 +14,7 @@
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "morgan": "^1.10.0",
-    "nanoid": "^4.0.0"
+    "nanoid": "^4.0.0",
+    "pg": "^8.7.3"
   }
 }
