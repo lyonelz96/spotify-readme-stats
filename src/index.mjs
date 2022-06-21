@@ -32,6 +32,15 @@ app.get('/#', (req, res) => {
     res.send('Oops something went wrong!')
 })
 
+app.get('/login', (req, res) => {
+    if (req.session.user) {
+        res.redirect('/')
+    }
+    else {
+        res.sendFile('./login.html')
+    }
+})
+
 app.listen(port, () => {
     console.log(`Listening on ${port}`)
 })
