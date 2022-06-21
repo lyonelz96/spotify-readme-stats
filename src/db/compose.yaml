@@ -1,0 +1,11 @@
+services:
+  db:
+    image: postgres
+    container_name: "${COMPOSE_DB_CONTAINER_NAME}"
+    environment:
+      POSTGRES_USER: "${PG_USER}"
+      POSTGRES_PASSWORD: "${PG_PASSWORD}"
+    ports:
+      - "${PG_PORT}:${PG_PORT}"
+    volumes:
+      - ./init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
