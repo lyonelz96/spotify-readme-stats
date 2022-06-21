@@ -4,6 +4,8 @@ import express from 'express'
 import morgan from 'morgan'
 import bodyParser from 'body-parser'
 
+import { session } from './db/db.session.mjs'
+
 import authRoutes from './auth/auth.routes.mjs'
 import userRoutes from './user/user.routes.mjs'
 
@@ -16,6 +18,8 @@ app.use(morgan('dev'))
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+
+app.use(session)
 
 app.use(authRoutes)
 app.use(userRoutes)

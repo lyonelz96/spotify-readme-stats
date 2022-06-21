@@ -1,4 +1,9 @@
-export const PG_USER = process.env.PG_USER
-export const PG_PASSWORD = process.env.PG_PASSWORD
-export const PG_HOST = process.env.PG_HOST
-export const PG_PORT = process.env.PG_PORT
+const PG_USER = process.env.PG_USER
+const PG_PASSWORD = process.env.PG_PASSWORD
+const PG_HOST = process.env.PG_HOST
+const PG_PORT = process.env.PG_PORT
+
+export const SESSION_SECRET = process.env.SESSION_SECRET
+
+export const DABATASE_URL = process.env.DATABASE_URL ||
+    `postgres://${PG_USER}:${PG_PASSWORD}@${PG_HOST}:${PG_PORT}`
