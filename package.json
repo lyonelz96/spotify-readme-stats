@@ -4,7 +4,9 @@
   "description": "Spotify stats for your github README",
   "main": "index.mjs",
   "scripts": {
-    "start": "node ./src/index.mjs"
+    "start": "node ./src/index.mjs",
+    "startdb": "./scripts/start_db.sh",
+    "stopdb": "./scripts/stop_db.sh"
   },
   "author": "lyonelz96",
   "license": "ISC",
