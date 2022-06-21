@@ -1,4 +1,4 @@
-export const userLoggedIn = (req, res, next) => {
+export const verifyUser = (req, res, next) => {
     if (req.session.user) {
         next()
     }
