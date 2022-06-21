@@ -9,6 +9,8 @@ import { session } from './db/db.session.mjs'
 import authRoutes from './auth/auth.routes.mjs'
 import userRoutes from './user/user.routes.mjs'
 
+import { absPathToFile } from './utils/index.mjs'
+
 const app = express()
 const port = 3000
 
@@ -37,7 +39,7 @@ app.get('/login', (req, res) => {
         res.redirect('/')
     }
     else {
-        res.sendFile('./login.html')
+        res.sendFile(absPathToFile('./login.html'))
     }
 })
 
