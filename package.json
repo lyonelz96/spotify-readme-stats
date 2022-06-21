@@ -4,7 +4,7 @@
   "description": "Spotify stats for your github README",
   "main": "index.mjs",
   "scripts": {
-    "dev": "NODE_ENV=development node ./src/index.mjs",
+    "dev": "NODE_ENV=development nodemon ./src/index.mjs",
     "startdb": "./scripts/start_db.sh",
     "stopdb": "./scripts/stop_db.sh"
   },
@@ -20,5 +20,8 @@
     "morgan": "^1.10.0",
     "nanoid": "^4.0.0",
     "pg": "^8.7.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
   }
 }
