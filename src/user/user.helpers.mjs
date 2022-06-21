@@ -35,7 +35,25 @@ userHelpers.getTopItems = async (type) => {
         },
         params: {
             'limit': 5,
-            'time_range': 'short_term'
+            'time_range': 'short_term' // 4 weeks
+        }
+    }
+
+    try {
+        const res = await axios.get(url, config)
+        return res.data
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+userHelpers.getUserProfile = async (authData) => {
+    const path = '/me'
+    const url = `${SPOTIFY_API_BASE_URI}${path}`
+    const config = {
+        headers: {
+            'Authorization': `Bearer ${authData.access_token}`,
+            'Content-Type': 'application/json'
         }
     }
 
