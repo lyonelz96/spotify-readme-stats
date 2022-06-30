@@ -3,6 +3,15 @@ import db from '../db/index.mjs'
 
 import { SPOTIFY_API_BASE_URI } from './user.constants.mjs'
 
+// USER SCHEMA
+// {
+//     spotify_id TEXT PRIMARY KEY,
+//     refresh_token TEXT NOT NULL,
+//     svg_recently_played TEXT,
+//     svg_top_tracks TEXT,
+//     svg_top_artists TEXT
+// }
+
 const userModel = {}
 
 userModel.getRecentlyPlayedTracks = async () => {
@@ -84,6 +93,28 @@ userModel.userExists = async (spotify_id) => {
 userModel.addUserToDB = async (spotify_id, refresh_token) => {
     try {
         await db.query('INSERT INTO users VALUES ($1, $2)', [spotify_id, refresh_token])
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+userModel.updateUser = async (spotify_id, update) => {
+    let updateStr = 'UPDATE users SET '
+    let keysOrdered = []
+
+    Object.keys(update).forEach(key => {
+        keysOrdered.push(key)
+        updateStr += `${key} = $${keysOrdered.length},`
+    })
+
+    updateStr = updateStr.slice(0, -1)
+
+    updateStr += ` WHERE spotify_id = '${spotify_id}'`
+
+    let values = keysOrdered.map(k => update[k])
+
+    try {
+        await db.query(updateStr, values)
     } catch (error) {
         console.error(error)
     }
