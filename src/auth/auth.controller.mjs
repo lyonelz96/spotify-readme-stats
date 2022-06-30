@@ -58,19 +58,17 @@ authController.authCallback = async (req, res) => {
 
             const authData = authRes.data
 
-            // Get User Profile
             const user = await userModel.getUserProfile(authData)
 
-            // Check if user exists in DB
             if (await userModel.userExists(user.id)) {
-                // if yes update the refresh token
+                await userModel.updateUser(user.id, {
+                    refresh_token: authData.refresh_token
+                })
             }
             else {
-                // if no create user in db
                 await userModel.addUserToDB(user.id, authData.refresh_token)
             }
 
-            // setup session.user = {spotify_id: id, access_token: token, expire_date: date}
             const now = new Date()
 
             req.session.user = {
