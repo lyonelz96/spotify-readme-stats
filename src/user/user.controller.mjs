@@ -1,10 +1,10 @@
-import userHelpers from './user.helpers.mjs'
+import userModel from './user.model.mjs'
 import svgHelpers from '../svg/svg.helpers.mjs'
 
 const userController = {}
 
 userController.recentlyPlayed = async (req, res) => {
-    const recentlyPlayed = await userHelpers.getRecentlyPlayedTracks()
+    const recentlyPlayed = await userModel.getRecentlyPlayedTracks()
 
     let mediaObjs = ''
 
@@ -23,7 +23,7 @@ userController.recentlyPlayed = async (req, res) => {
 }
 
 userController.topItems = async (req, res) => {
-    res.send(await userHelpers.getTopItems(req.params.type))
+    res.send(await userModel.getTopItems(req.params.type))
 }
 
 export default userController
