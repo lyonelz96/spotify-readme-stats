@@ -10,14 +10,15 @@ import {
     TOKEN_ENDPOINT
 } from './auth.constants.mjs'
 
-let authData = null
+import userModel from '../user/user.model.mjs'
+
 let state = null
 
 const authController = {}
 
 authController.login = (req, res) => {
     state = nanoid()
-    const scope = 'user-read-recently-played user-top-read'
+    const scope = 'user-read-recently-played user-top-read user-read-private'
 
     res.redirect(`${AUTHORIZE_ENDPOINT}?${new URLSearchParams({
         response_type: 'code',
@@ -52,9 +53,33 @@ authController.authCallback = async (req, res) => {
         }
 
         try {
-            const res = await axios
+            const authRes = await axios
                 .post(TOKEN_ENDPOINT, data, config)
-            authData = res.data
+
+            const authData = authRes.data
+
+            // Get User Profile
+            const user = await userModel.getUserProfile(authData)
+
+            // Check if user exists in DB
+            if (await userModel.userExists(user.id)) {
+                // if yes update the refresh token
+            }
+            else {
+                // if no create user in db
+                await userModel.addUserToDB(user.id, authData.refresh_token)
+            }
+
+            // setup session.user = {spotify_id: id, access_token: token, expire_date: date}
+            const now = new Date()
+
+            req.session.user = {
+                spotify_id: user.id,
+                access_token: authData.access_token,
+                token_expire_date: now.setMinutes(now.getMinutes() + 50) // 50 minutes from now
+            }
+
+            res.redirect('/')
         } catch (error) {
             console.error(error)
         }
