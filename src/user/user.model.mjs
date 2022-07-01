@@ -3,15 +3,6 @@ import db from '../db/index.mjs'
 
 import { SPOTIFY_API_BASE_URI } from './user.constants.mjs'
 
-// USER SCHEMA
-// {
-//     id TEXT PRIMARY KEY,
-//     refresh_token TEXT NOT NULL,
-//     svg_recently_played TEXT,
-//     svg_top_tracks TEXT,
-//     svg_top_artists TEXT
-// }
-
 const userModel = {}
 
 userModel.getRecentlyPlayedTracks = async () => {
@@ -75,9 +66,9 @@ userModel.getUserProfile = async (authData) => {
     }
 }
 
-userModel.find = async (id) => {
+userModel.find = async (spotify_id) => {
     try {
-        const { rows } = await db.query('SELECT * FROM users WHERE id = $1', [id])
+        const { rows } = await db.query('SELECT * FROM users WHERE spotify_id = $1', [spotify_id])
 
         return rows.first
     } catch (error) {
@@ -85,15 +76,15 @@ userModel.find = async (id) => {
     }
 }
 
-userModel.create = async (id, refresh_token) => {
+userModel.create = async (spotify_id, refresh_token) => {
     try {
-        await db.query('INSERT INTO users VALUES ($1, $2)', [id, refresh_token])
+        await db.query('INSERT INTO users VALUES ($1, $2)', [spotify_id, refresh_token])
     } catch (error) {
         console.error(error)
     }
 }
 
-userModel.update = async (id, update) => {
+userModel.update = async (spotify_id, update) => {
     let updateStr = 'UPDATE users SET '
     let keysOrdered = []
 
@@ -104,7 +95,7 @@ userModel.update = async (id, update) => {
 
     updateStr = updateStr.slice(0, -1)
 
-    updateStr += ` WHERE id = '${id}'`
+    updateStr += ` WHERE spotify_id = '${spotify_id}'`
 
     let values = keysOrdered.map(k => update[k])
 

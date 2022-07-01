@@ -72,7 +72,7 @@ authController.authCallback = async (req, res) => {
             const now = new Date()
 
             req.session.user = {
-                id: user.id,
+                spotify_id: user.id,
                 access_token: authData.access_token,
                 // Represented in ms since EPOCH
                 token_expire_date: now.setMinutes(now.getMinutes() + 50) // 50 minutes from now

@@ -17,7 +17,7 @@ CREATE TABLE svgs (
 
 CREATE TABLE svg_types (
     id SERIAL PRIMARY KEY,
-    type TEXT,
+    svg_type TEXT,
 );
 
 INSERT INTO svg_types VALUES ("TopTracks")
