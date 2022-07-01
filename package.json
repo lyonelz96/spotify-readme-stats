@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "NODE_ENV=development nodemon ./src/index.mjs",
     "startdb": "docker-compose -f ./src/db/compose.yaml --env-file ./.env up -d",
-    "stopdb": "docker-compose -f ./src/db/compose.yaml --env-file ./.env down -v"
+    "stopdb": "docker-compose -f ./src/db/compose.yaml --env-file ./.env down -v",
+    "dbshell": "docker exec -it $npm_config_container psql -U $npm_config_user"
   },
   "author": "lyonelz96",
   "license": "ISC",
