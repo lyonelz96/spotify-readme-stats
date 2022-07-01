@@ -60,20 +60,21 @@ authController.authCallback = async (req, res) => {
 
             const user = await userModel.getUserProfile(authData)
 
-            if (await userModel.userExists(user.id)) {
-                await userModel.updateUser(user.id, {
+            if (await userModel.find(user.id)) {
+                await userModel.update(user.id, {
                     refresh_token: authData.refresh_token
                 })
             }
             else {
-                await userModel.addUserToDB(user.id, authData.refresh_token)
+                await userModel.create(user.id, authData.refresh_token)
             }
 
             const now = new Date()
 
             req.session.user = {
-                spotify_id: user.id,
+                id: user.id,
                 access_token: authData.access_token,
+                // Represented in ms since EPOCH
                 token_expire_date: now.setMinutes(now.getMinutes() + 50) // 50 minutes from now
             }
 

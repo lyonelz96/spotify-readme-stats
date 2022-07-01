@@ -3,7 +3,7 @@ import userController from './user.controller.mjs'
 
 const userRouter = express.Router()
 
-userRouter.get('/user/recently-played', userController.recentlyPlayed)
-userRouter.get('/user/top-items/:type', userController.topItems)
+userRouter.get('/user/:id/recently-played', userController.recentlyPlayed)
+userRouter.get('/user/:id/top-items/:type', userController.topItems)
 
 export default userRouter
