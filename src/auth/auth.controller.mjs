@@ -11,6 +11,7 @@ import {
 } from './auth.constants.mjs'
 
 import userModel from '../user/user.model.mjs'
+import spotifyModel from '../spotify/spotify.model.mjs'
 
 let state = null
 
@@ -58,7 +59,7 @@ authController.authCallback = async (req, res) => {
 
             const authData = authRes.data
 
-            const user = await userModel.getUserProfile(authData)
+            const user = await spotifyModel.getUserProfile(authData)
 
             if (await userModel.find(user.id)) {
                 await userModel.update(user.id, {
