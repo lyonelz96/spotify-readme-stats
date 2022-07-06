@@ -42,7 +42,7 @@ spotifyModel.getTopItems = async (type, access_token) => {
 
     try {
         const res = await axios.get(url, config)
-        return res.data
+        return res.data.items
     } catch (error) {
         console.error(error)
     }
