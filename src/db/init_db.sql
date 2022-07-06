@@ -19,7 +19,7 @@ CREATE TABLE svgs (
     user_id INTEGER REFERENCES users ON DELETE CASCADE,
     svg_type_id INTEGER REFERENCES svg_types,
     svg TEXT NOT NULL,
-    request_date INTEGER NOT NULL
+    request_date BIGINT NOT NULL
 );
 
 INSERT INTO users (spotify_id, refresh_token) VALUES('spotify_id_1', 'refresh_token_1');
