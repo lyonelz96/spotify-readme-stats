@@ -1,6 +1,7 @@
 import axios from "axios"
 
 import { SPOTIFY_API_BASE_URI } from './spotify.constants.mjs'
+import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } from '../auth/auth.constants.mjs'
 
 const spotifyModel = {}
 
@@ -60,6 +61,32 @@ spotifyModel.getUserProfile = async (access_token) => {
     try {
         const res = await axios.get(url, config)
         return res.data
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+spotifyModel.getNewAccessToken = async (refresh_token) => {
+    const url = 'https://accounts.spotify.com/api/token'
+
+    const data = new URLSearchParams({
+        'grant_type': 'refresh_token',
+        'refresh_token': refresh_token
+    })
+
+    const authBuffer = Buffer.from(`${SPOTIFY_CLIENT_ID}:${SPOTIFY_CLIENT_SECRET}`)
+    const authBase64 = `Basic ${authBuffer.toString('base64')}`
+
+    const config = {
+        headers: {
+            'Authorization': authBase64,
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    }
+
+    try {
+        const res = await axios.post(url, data, config)
+        return res.data.access_token
     } catch (error) {
         console.error(error)
     }
