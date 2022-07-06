@@ -54,17 +54,14 @@ authController.authCallback = async (req, res) => {
         }
 
         try {
-            const authRes = await axios
-                .post(TOKEN_ENDPOINT, data, config)
+            const authRes = await axios.post(TOKEN_ENDPOINT, data, config)
 
             const authData = authRes.data
 
-            const user = await spotifyModel.getUserProfile(authData)
+            const user = await spotifyModel.getUserProfile(authData.access_token)
 
             if (await userModel.find(user.id)) {
-                await userModel.update(user.id, {
-                    refresh_token: authData.refresh_token
-                })
+                await userModel.updateRefreshToken(user.id, authData.refresh_token)
             }
             else {
                 await userModel.create(user.id, authData.refresh_token)
