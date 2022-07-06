@@ -9,6 +9,7 @@ svgHelpers.genStyle = () => {
             }
 
             foreignObject,
+            rect,
             container {
                 width: 100%;
                 height:100%;
@@ -80,13 +81,13 @@ svgHelpers.genMediaHeader = (title) => {
         <hr/>
     `
 }
-svgHelpers.genMediaObject = (coverURL, album, song, artist) => {
+svgHelpers.genMediaObject = (coverURL, heading, subHeading) => {
     return `
         <div class="container-media-item">
             <img src="${coverURL}" alt="Cover" width="50px" height="50px"/>
             <div>
-                <h4>${song}</h4>
-                <h5>${artist}</h5>
+                <h4>${heading}</h4>
+                <h5>${subHeading}</h5>
             </div>
         </div>
     `
@@ -95,7 +96,7 @@ svgHelpers.genMediaObject = (coverURL, album, song, artist) => {
 svgHelpers.genSVG = (mediaHeader, mediaObjs) => {
     return `
         <svg xmlns="http://www.w3.org/2000/svg">
-            ${genStyle()}
+            ${svgHelpers.genStyle()}
             <rect />
             <foreignObject>
                 <div class="container" xmlns="http://www.w3.org/1999/xhtml">
