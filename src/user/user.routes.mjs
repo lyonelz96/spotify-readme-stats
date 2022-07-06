@@ -1,9 +1,15 @@
 import express from "express"
 import userController from './user.controller.mjs'
+import userMiddleware from './user.middleware.mjs'
 
 const userRouter = express.Router()
 
-userRouter.get('/user/:id/recently-played', userController.recentlyPlayed)
-userRouter.get('/user/:id/top-items/:type', userController.topItems)
+const middleware = [
+    userMiddleware.checkIfUserExistsInDB,
+    userMiddleware.checkIfUserIsTheSameAsSession
+]
+
+userRouter.get('/user/:spotify_id/recently-played', middleware, userController.recentlyPlayed)
+userRouter.get('/user/:spotify_id/top-items/:type', middleware, userController.topItems)
 
 export default userRouter
