@@ -47,7 +47,8 @@ userModel.getSVG = async (spotify_id, type) => {
             return null
         }
         else {
-            return svgs.find(svg => svg.svg_type === type)
+            const svg = svgs.find(svg => svg.svg_type === type)
+            return svg ? svg : null
         }
 
     } catch (error) {
@@ -71,8 +72,6 @@ userModel.createSVG = async (spotify_id, type, svg) => {
         const type_id = (await db.query('SELECT id FROM svg_types WHERE svg_type = $1', [type])).rows[0].id
         const user_id = (await userModel.find(spotify_id)).id
         const request_date = new Date().getTime()
-
-        console.log(type_id, user_id, request_date)
 
         await db.query('INSERT INTO svgs (user_id, svg_type_id, svg, request_date) VALUES ($1, $2, $3, $4)', [user_id, type_id, svg, request_date])
     } catch (error) {
