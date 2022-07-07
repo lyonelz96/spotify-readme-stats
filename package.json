@@ -5,6 +5,7 @@
   "main": "index.mjs",
   "scripts": {
     "dev": "NODE_ENV=development nodemon ./src/index.mjs",
+    "prod": "NODE_ENV=production node ./src/index.mjs",
     "startdb": "docker-compose -f ./src/db/compose.yaml --env-file ./.env up -d",
     "stopdb": "docker-compose -f ./src/db/compose.yaml --env-file ./.env down -v",
     "dbshell": "docker exec -it $npm_config_container psql -U $npm_config_user"
