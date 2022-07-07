@@ -12,7 +12,7 @@ import userRoutes from './user/user.routes.mjs'
 import { absPathToFile } from './utils/index.mjs'
 
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
 
 app.use(express.static('public'))
 
@@ -44,5 +44,7 @@ app.get('/login', (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log(`Listening on ${port}`)
+    if (process.env.NODE_ENV === 'development') {
+        console.log(`Listening on ${port}`)
+    }
 })
