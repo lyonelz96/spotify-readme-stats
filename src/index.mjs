@@ -21,6 +21,9 @@ app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
+if (process.env.NODE_ENV === 'production') {
+    app.set('trust proxy', 1)
+}
 app.use(session)
 
 app.use(authRoutes)
