@@ -26,4 +26,9 @@ userMiddleware.checkIfUserIsTheSameAsSession = (req, res, next) => {
     next()
 }
 
+userMiddleware.setCacheControlHeader = (req, res, next) => {
+    res.header('Cache-Control', 'no-cache')
+    next()
+}
+
 export default userMiddleware
