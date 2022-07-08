@@ -1,9 +1,7 @@
 import { resolve } from 'path'
 
-const __dirname = new URL('../', import.meta.url).pathname
-
-export const absPathToFile = relPathToFile => {
-    return resolve(__dirname + relPathToFile)
+export const filePathRelativeToCWD = (relPathToFile) => {
+    return resolve(process.cwd(), relPathToFile)
 }
 
 import axios from 'axios'
@@ -19,7 +17,7 @@ export const webBase64Img = async (url) => {
 }
 
 export const localBase64Img = (img) => {
-    const path = absPathToFile(img)
+    const path = filePathRelativeToCWD(img)
     const type = extname(path).slice(1)
     const base64Image = 'data:image/' + type + ';base64,' + readFileSync(path, 'base64')
 
