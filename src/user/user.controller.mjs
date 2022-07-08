@@ -31,7 +31,7 @@ userController.recentlyPlayed = async (req, res) => {
                 const song = item.track.name
                 const artist = item.track.artists[0].name
 
-                mediaObjs += svgHelpers.genMediaObject(coverURL, song, artist)
+                mediaObjs += await svgHelpers.genMediaObject(coverURL, song, artist)
             }
 
             const mediaHeader = svgHelpers.genMediaHeader('Recently Played')
@@ -82,7 +82,7 @@ userController.topItems = async (req, res) => {
                     const coverURL = item.images[0].url
                     const artist = item.name
 
-                    mediaObjs += svgHelpers.genMediaObject(coverURL, artist, null)
+                    mediaObjs += await svgHelpers.genMediaObject(coverURL, artist, null)
                 }
                 mediaHeader = svgHelpers.genMediaHeader('Top Artists')
                 svg = svgHelpers.genSVG(mediaHeader, mediaObjs)
@@ -95,7 +95,7 @@ userController.topItems = async (req, res) => {
                     const track = item.name
                     const artist = item.artists[0].name
 
-                    mediaObjs += svgHelpers.genMediaObject(coverURL, track, artist)
+                    mediaObjs += await svgHelpers.genMediaObject(coverURL, track, artist)
                 }
                 mediaHeader = svgHelpers.genMediaHeader('Top Tracks')
                 svg = svgHelpers.genSVG(mediaHeader, mediaObjs)
