@@ -14,8 +14,6 @@ import { absPathToFile } from './utils/index.mjs'
 const app = express()
 const port = process.env.PORT || 3000
 
-app.use(express.static('public'))
-
 app.use(morgan('dev'))
 
 app.use(bodyParser.urlencoded({ extended: false }))
