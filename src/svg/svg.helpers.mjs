@@ -8,12 +8,6 @@ svgHelpers.genStyle = () => {
             padding: 0;
         }
 
-        svg {
-            width: 400px;
-            height: 350px;
-        }
-
-        foreignObject,
         .container {
             width: 100%;
             height: 100%;
@@ -94,22 +88,24 @@ svgHelpers.genStyle = () => {
     `
 }
 
+import { localBase64Img, webBase64Img } from '../utils/index.mjs'
+
 svgHelpers.genMediaHeader = (title) => {
     return `
             <div class="container-header-item">
-                <img src="/images/spotify-logo.png" alt="Spotify Logo" class="spotify-logo" />
+                <img src="${localBase64Img('assets/images/spotify-logo.png')}" alt="Spotify Logo" class="spotify-logo" />
                 <h1 class="container-header-title">${title}</h1>
             </div>
 
             <hr class="fancy-hr" />
     `
 }
-svgHelpers.genMediaObject = (coverURL, heading, subHeading) => {
+svgHelpers.genMediaObject = async (coverURL, heading, subHeading) => {
     const sHeading = subHeading ? `<h3>${subHeading}</h3>` : ''
 
     return `
             <div class="container-media-item">
-                <img src="${coverURL}" alt="Cover" class="cover" />
+                <img src="${await webBase64Img(coverURL)}" alt="Cover" class="cover" />
                 <div class="container-media-headings">
                     <h2>${heading}</h2>
                     ${sHeading}
@@ -120,10 +116,10 @@ svgHelpers.genMediaObject = (coverURL, heading, subHeading) => {
 
 svgHelpers.genSVG = (mediaHeader, mediaObjs) => {
     return `
-        <svg xmlns="http://www.w3.org/2000/svg">
-            ${svgHelpers.genStyle()}
-            <foreignObject>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 325 350" width="325" height="350">
+            <foreignObject width="100%" height="100%">
                 <div class="container" xmlns="http://www.w3.org/1999/xhtml">
+                    ${svgHelpers.genStyle()}
                     ${mediaHeader}
                     ${mediaObjs}
                 </div>
