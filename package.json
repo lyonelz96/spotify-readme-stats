@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "NODE_ENV=development nodemon ./src/index.mjs",
     "prod": "NODE_ENV=production node ./src/index.mjs",
+    "test": "jest",
     "startdb": "docker-compose -f ./src/db/compose.yaml --env-file ./.env up -d",
     "stopdb": "docker-compose -f ./src/db/compose.yaml --env-file ./.env down -v",
     "dbshell": "docker exec -it $npm_config_container psql -U $npm_config_user"
@@ -24,6 +25,7 @@
     "pg": "^8.7.3"
   },
   "devDependencies": {
+    "jest": "^28.1.2",
     "nodemon": "^2.0.16"
   }
 }
