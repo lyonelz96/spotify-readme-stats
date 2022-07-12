@@ -1,19 +1,19 @@
 services:
-  db:
-    image: postgres
-    container_name: "${COMPOSE_DB_CONTAINER_NAME}"
-    environment:
-      POSTGRES_USER: "${PG_USER}"
-      POSTGRES_PASSWORD: "${PG_PASSWORD}"
-    ports:
-      - "${PG_PORT}:${PG_PORT}"
-    volumes:
-      - ./init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: "${COMPOSE_DB_CONTAINER_NAME}-pgadmin"
-    environment:
-      PGADMIN_DEFAULT_EMAIL: "${PGADMIN_EMAIL}"
-      PGADMIN_DEFAULT_PASSWORD: "${PGADMIN_PASSWORD}"
-    ports:
-      - "${PGADMIN_PORT}:80"
+    db:
+        image: postgres
+        container_name: '${COMPOSE_DB_CONTAINER_NAME}'
+        environment:
+            POSTGRES_USER: '${PG_USER}'
+            POSTGRES_PASSWORD: '${PG_PASSWORD}'
+        ports:
+            - '${PG_PORT}:${PG_PORT}'
+        volumes:
+            - ./init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+    pgadmin:
+        image: dpage/pgadmin4
+        container_name: '${COMPOSE_DB_CONTAINER_NAME}-pgadmin'
+        environment:
+            PGADMIN_DEFAULT_EMAIL: '${PGADMIN_EMAIL}'
+            PGADMIN_DEFAULT_PASSWORD: '${PGADMIN_PASSWORD}'
+        ports:
+            - '${PGADMIN_PORT}:80'

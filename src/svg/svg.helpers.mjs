@@ -93,7 +93,9 @@ import { localBase64Img, webBase64Img } from '../utils/index.mjs'
 svgHelpers.genMediaHeader = (title) => {
     return `
             <div class="container-header-item">
-                <img src="${localBase64Img('assets/images/spotify-logo.png')}" alt="Spotify Logo" class="spotify-logo" />
+                <img src="${localBase64Img(
+                    'assets/images/spotify-logo.png'
+                )}" alt="Spotify Logo" class="spotify-logo" />
                 <h1 class="container-header-title">${title}</h1>
             </div>
 
@@ -105,7 +107,9 @@ svgHelpers.genMediaObject = async (coverURL, heading, subHeading) => {
 
     return `
             <div class="container-media-item">
-                <img src="${await webBase64Img(coverURL)}" alt="Cover" class="cover" />
+                <img src="${await webBase64Img(
+                    coverURL
+                )}" alt="Cover" class="cover" />
                 <div class="container-media-headings">
                     <h2>${heading}</h2>
                     ${sHeading}

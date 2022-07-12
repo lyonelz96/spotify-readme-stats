@@ -13,11 +13,11 @@ describe('check if user exists in db', () => {
     const checkIfUserExistsInDB = userMiddleware.checkIfUserExistsInDB
     const req = {
         params: {
-            spotify_id: true
-        }
+            spotify_id: true,
+        },
     }
     const res = {
-        send: jest.fn()
+        send: jest.fn(),
     }
 
     describe('if user does not exist', () => {
@@ -40,13 +40,14 @@ describe('check if user exists in db', () => {
 })
 
 describe('check if the user is the same as the session user', () => {
-    const checkIfUserIsTheSameAsSession = userMiddleware.checkIfUserIsTheSameAsSession
+    const checkIfUserIsTheSameAsSession =
+        userMiddleware.checkIfUserIsTheSameAsSession
 
     describe('if user session does not exist', () => {
         const req = {
             session: {
-                user: false
-            }
+                user: false,
+            },
         }
 
         it('it should call next', () => {
@@ -59,13 +60,13 @@ describe('check if the user is the same as the session user', () => {
         describe('if user session is the same as user requesting', () => {
             const req = {
                 params: {
-                    spotify_id: 1
+                    spotify_id: 1,
                 },
                 session: {
                     user: {
-                        spotify_id: 1
-                    }
-                }
+                        spotify_id: 1,
+                    },
+                },
             }
 
             it('should set req.userSameAsSession to true', () => {
@@ -78,13 +79,13 @@ describe('check if the user is the same as the session user', () => {
         describe('if user session is not the same as user requesting', () => {
             const req = {
                 params: {
-                    spotify_id: 1
+                    spotify_id: 1,
                 },
                 session: {
                     user: {
-                        spotify_id: 2
-                    }
-                }
+                        spotify_id: 2,
+                    },
+                },
             }
 
             it('should call next', () => {
@@ -100,7 +101,7 @@ describe('set cache-control header', () => {
     const setCacheControlHeader = userMiddleware.setCacheControlHeader
 
     const res = {
-        header: jest.fn()
+        header: jest.fn(),
     }
 
     it('should set the cache-control header to no-cache', () => {

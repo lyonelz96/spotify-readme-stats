@@ -1,41 +1,41 @@
 {
-  "name": "spotify-readme-stats",
-  "version": "1.0.0",
-  "description": "Spotify stats for your github README",
-  "main": "index.mjs",
-  "scripts": {
-    "dev": "NODE_ENV=development nodemon ./src/index.mjs",
-    "prod": "NODE_ENV=production node ./src/index.mjs",
-    "test": "jest",
-    "lint": "eslint_d \"./**\"",
-    "formatcheck": "prettier --check .",
-    "format": "prettier --write .",
-    "startdb": "docker-compose -f ./src/db/compose.yaml --env-file ./.env up -d",
-    "stopdb": "docker-compose -f ./src/db/compose.yaml --env-file ./.env down -v",
-    "dbshell": "docker exec -it $npm_config_container psql -U $npm_config_user"
-  },
-  "author": "lyonelz96",
-  "license": "ISC",
-  "dependencies": {
-    "axios": "^0.27.2",
-    "body-parser": "^1.20.0",
-    "connect-pg-simple": "^7.0.0",
-    "dotenv": "^16.0.1",
-    "express": "^4.18.1",
-    "express-session": "^1.17.3",
-    "morgan": "^1.10.0",
-    "nanoid": "^4.0.0",
-    "pg": "^8.7.3"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.18.6",
-    "@babel/preset-env": "^7.18.6",
-    "@fsouza/prettierd": "^0.21.1",
-    "babel-jest": "^28.1.2",
-    "eslint_d": "^12.2.0",
-    "eslint-config-prettier": "^8.5.0",
-    "jest": "^28.1.2",
-    "nodemon": "^2.0.16",
-    "prettier": "^2.7.1"
-  }
+    "name": "spotify-readme-stats",
+    "version": "1.0.0",
+    "description": "Spotify stats for your github README",
+    "main": "index.mjs",
+    "scripts": {
+        "dev": "NODE_ENV=development nodemon ./src/index.mjs",
+        "prod": "NODE_ENV=production node ./src/index.mjs",
+        "test": "jest",
+        "lint": "eslint_d \"./**\"",
+        "formatcheck": "prettier --check .",
+        "format": "prettier --write .",
+        "startdb": "docker-compose -f ./src/db/compose.yaml --env-file ./.env up -d",
+        "stopdb": "docker-compose -f ./src/db/compose.yaml --env-file ./.env down -v",
+        "dbshell": "docker exec -it $npm_config_container psql -U $npm_config_user"
+    },
+    "author": "lyonelz96",
+    "license": "ISC",
+    "dependencies": {
+        "axios": "^0.27.2",
+        "body-parser": "^1.20.0",
+        "connect-pg-simple": "^7.0.0",
+        "dotenv": "^16.0.1",
+        "express": "^4.18.1",
+        "express-session": "^1.17.3",
+        "morgan": "^1.10.0",
+        "nanoid": "^4.0.0",
+        "pg": "^8.7.3"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.18.6",
+        "@babel/preset-env": "^7.18.6",
+        "@fsouza/prettierd": "^0.21.1",
+        "babel-jest": "^28.1.2",
+        "eslint_d": "^12.2.0",
+        "eslint-config-prettier": "^8.5.0",
+        "jest": "^28.1.2",
+        "nodemon": "^2.0.16",
+        "prettier": "^2.7.1"
+    }
 }

@@ -6,23 +6,31 @@ import { SVG_TYPES } from '../svg/svg.constants.mjs'
 const userController = {}
 
 userController.recentlyPlayed = async (req, res) => {
-
-    let svgDB = await userModel.getSVG(req.params.spotify_id, SVG_TYPES.RecentlyPlayed)
+    let svgDB = await userModel.getSVG(
+        req.params.spotify_id,
+        SVG_TYPES.RecentlyPlayed
+    )
 
     if (req.userSameAsSession) {
         const requestDate = svgDB === null ? null : svgDB.request_date
         const now = svgDB === null ? null : new Date()
 
-        const diffInMins = svgDB === null ? null : (now - requestDate) / 1000 / 60
+        const diffInMins =
+            svgDB === null ? null : (now - requestDate) / 1000 / 60
 
         if (svgDB === null || diffInMins >= 15) {
             if (Date.now() > req.session.user.token_expire_date) {
-                const refresh_token = (await userModel.find(req.session.user.spotify_id)).refresh_token
-                req.session.user.access_token = await spotifyModel.getNewAccessToken(refresh_token)
-                req.session.user.token_expire_date = Date.now() + (50 * 60 * 1000) // 50 Minutes
+                const refresh_token = (
+                    await userModel.find(req.session.user.spotify_id)
+                ).refresh_token
+                req.session.user.access_token =
+                    await spotifyModel.getNewAccessToken(refresh_token)
+                req.session.user.token_expire_date = Date.now() + 50 * 60 * 1000 // 50 Minutes
             }
 
-            const recentlyPlayed = await spotifyModel.getRecentlyPlayedTracks(req.session.user.access_token)
+            const recentlyPlayed = await spotifyModel.getRecentlyPlayedTracks(
+                req.session.user.access_token
+            )
 
             let mediaObjs = ''
 
@@ -31,17 +39,28 @@ userController.recentlyPlayed = async (req, res) => {
                 const song = item.track.name
                 const artist = item.track.artists[0].name
 
-                mediaObjs += await svgHelpers.genMediaObject(coverURL, song, artist)
+                mediaObjs += await svgHelpers.genMediaObject(
+                    coverURL,
+                    song,
+                    artist
+                )
             }
 
             const mediaHeader = svgHelpers.genMediaHeader('Recently Played')
             const svg = svgHelpers.genSVG(mediaHeader, mediaObjs)
 
             if (svgDB === null) {
-                await userModel.createSVG(req.session.user.spotify_id, SVG_TYPES.RecentlyPlayed, svg)
-            }
-            else {
-                await userModel.updateSVG(req.session.user.spotify_id, SVG_TYPES.RecentlyPlayed, svg)
+                await userModel.createSVG(
+                    req.session.user.spotify_id,
+                    SVG_TYPES.RecentlyPlayed,
+                    svg
+                )
+            } else {
+                await userModel.updateSVG(
+                    req.session.user.spotify_id,
+                    SVG_TYPES.RecentlyPlayed,
+                    svg
+                )
             }
 
             svgDB = svg
@@ -52,7 +71,10 @@ userController.recentlyPlayed = async (req, res) => {
 }
 
 userController.topItems = async (req, res) => {
-    const type = req.params.type === 'artists' ? SVG_TYPES.TopArtists : SVG_TYPES.TopTracks
+    const type =
+        req.params.type === 'artists'
+            ? SVG_TYPES.TopArtists
+            : SVG_TYPES.TopTracks
 
     let svgDB = await userModel.getSVG(req.params.spotify_id, type)
 
@@ -60,15 +82,18 @@ userController.topItems = async (req, res) => {
         const requestDate = svgDB === null ? null : svgDB.request_date
         const now = svgDB === null ? null : new Date()
 
-        const diffInDays = svgDB === null ? null : (now - requestDate) / 1000 / 60 / 60 / 24
+        const diffInDays =
+            svgDB === null ? null : (now - requestDate) / 1000 / 60 / 60 / 24
 
         if (svgDB === null || diffInDays >= 30) {
             if (Date.now() > req.session.user.token_expire_date) {
-                const refresh_token = (await userModel.find(req.session.user.spotify_id)).refresh_token
-                req.session.user.access_token = await spotifyModel.getNewAccessToken(refresh_token)
-                req.session.user.token_expire_date = Date.now() + (50 * 60 * 1000) // 50 Minutes
+                const refresh_token = (
+                    await userModel.find(req.session.user.spotify_id)
+                ).refresh_token
+                req.session.user.access_token =
+                    await spotifyModel.getNewAccessToken(refresh_token)
+                req.session.user.token_expire_date = Date.now() + 50 * 60 * 1000 // 50 Minutes
             }
-
 
             let mediaObjs = ''
 
@@ -76,36 +101,56 @@ userController.topItems = async (req, res) => {
             let svg = ''
 
             if (type === SVG_TYPES.TopArtists) {
-                const topItems = await spotifyModel.getTopItems('artists', req.session.user.access_token)
+                const topItems = await spotifyModel.getTopItems(
+                    'artists',
+                    req.session.user.access_token
+                )
 
                 for (const item of topItems) {
                     const coverURL = item.images[0].url
                     const artist = item.name
 
-                    mediaObjs += await svgHelpers.genMediaObject(coverURL, artist, null)
+                    mediaObjs += await svgHelpers.genMediaObject(
+                        coverURL,
+                        artist,
+                        null
+                    )
                 }
                 mediaHeader = svgHelpers.genMediaHeader('Top Artists')
                 svg = svgHelpers.genSVG(mediaHeader, mediaObjs)
-            }
-            else if (type === SVG_TYPES.TopTracks) {
-                const topItems = await spotifyModel.getTopItems('tracks', req.session.user.access_token)
+            } else if (type === SVG_TYPES.TopTracks) {
+                const topItems = await spotifyModel.getTopItems(
+                    'tracks',
+                    req.session.user.access_token
+                )
 
                 for (const item of topItems) {
                     const coverURL = item.album.images[0].url
                     const track = item.name
                     const artist = item.artists[0].name
 
-                    mediaObjs += await svgHelpers.genMediaObject(coverURL, track, artist)
+                    mediaObjs += await svgHelpers.genMediaObject(
+                        coverURL,
+                        track,
+                        artist
+                    )
                 }
                 mediaHeader = svgHelpers.genMediaHeader('Top Tracks')
                 svg = svgHelpers.genSVG(mediaHeader, mediaObjs)
             }
 
             if (svgDB === null) {
-                await userModel.createSVG(req.session.user.spotify_id, type, svg)
-            }
-            else {
-                await userModel.updateSVG(req.session.user.spotify_id, type, svg)
+                await userModel.createSVG(
+                    req.session.user.spotify_id,
+                    type,
+                    svg
+                )
+            } else {
+                await userModel.updateSVG(
+                    req.session.user.spotify_id,
+                    type,
+                    svg
+                )
             }
 
             svgDB = svg

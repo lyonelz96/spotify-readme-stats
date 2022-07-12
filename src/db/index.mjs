@@ -4,12 +4,12 @@ import { DABATASE_URL } from './db.constants.mjs'
 const db = {}
 
 const config = {
-    connectionString: DABATASE_URL
+    connectionString: DABATASE_URL,
 }
 
 if (process.env.NODE_ENV === 'production') {
     config.ssl = {
-        rejectUnauthorized: false
+        rejectUnauthorized: false,
     }
 }
 

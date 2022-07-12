@@ -38,8 +38,7 @@ app.get('/#', (req, res) => {
 app.get('/login', (req, res) => {
     if (req.session.user) {
         res.redirect('/')
-    }
-    else {
+    } else {
         res.sendFile(filePathRelativeToCWD('src/login.html'))
     }
 })

@@ -5,5 +5,6 @@ const PG_PORT = process.env.PG_PORT
 
 export const SESSION_SECRET = process.env.SESSION_SECRET
 
-export const DABATASE_URL = process.env.DATABASE_URL ||
+export const DABATASE_URL =
+    process.env.DATABASE_URL ||
     `postgres://${PG_USER}:${PG_PASSWORD}@${PG_HOST}:${PG_PORT}`
