@@ -15,7 +15,9 @@
         "*.html",
         "*.json",
         "*.yaml",
-        "*.sql"
+        "*.sql",
+        "*.png",
+        "Procfile"
     ],
     "rules": {
         "indent": [
