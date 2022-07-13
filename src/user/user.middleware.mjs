@@ -1,4 +1,4 @@
-import userModel from './user.model.mjs'
+import { userModel } from './user.model.mjs'
 
 const userMiddleware = {}
 

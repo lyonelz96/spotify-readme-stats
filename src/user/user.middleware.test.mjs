@@ -1,5 +1,5 @@
 import userMiddleware from './user.middleware.mjs'
-import userModel from './user.model.mjs'
+import { userModel } from './user.model.mjs'
 
 import { jest, beforeEach, describe, it, expect } from '@jest/globals'
 

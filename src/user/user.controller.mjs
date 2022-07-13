@@ -1,5 +1,5 @@
 import spotifyModel from '../spotify/spotify.model.mjs'
-import userModel from './user.model.mjs'
+import { userModel } from './user.model.mjs'
 import svgHelpers from '../svg/svg.helpers.mjs'
 import { SVG_TYPES } from '../svg/svg.constants.mjs'
 

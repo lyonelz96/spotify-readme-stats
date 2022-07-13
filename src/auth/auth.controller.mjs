@@ -10,7 +10,7 @@ import {
     TOKEN_ENDPOINT,
 } from './auth.constants.mjs'
 
-import userModel from '../user/user.model.mjs'
+import { userModel } from '../user/user.model.mjs'
 import spotifyModel from '../spotify/spotify.model.mjs'
 
 let state = null

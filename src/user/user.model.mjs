@@ -1,6 +1,6 @@
 import db from '../db/index.mjs'
 
-const userModel = {}
+export const userModel = {}
 
 userModel.find = async (spotify_id) => {
     try {
@@ -104,4 +104,3 @@ userModel.createSVG = async (spotify_id, type, svg) => {
         console.error(error)
     }
 }
-export default userModel
