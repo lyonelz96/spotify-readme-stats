@@ -6,7 +6,7 @@ import bodyParser from 'body-parser'
 
 import { session } from './db/db.session.mjs'
 
-import authRoutes from './auth/auth.routes.mjs'
+import { authRouter } from './auth/auth.routes.mjs'
 import { userRouter } from './user/user.routes.mjs'
 
 import { filePathRelativeToCWD } from './utils/index.mjs'
@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 app.use(session)
 
-app.use(authRoutes)
+app.use(authRouter)
 app.use(userRouter)
 
 app.get('/', (req, res) => {
