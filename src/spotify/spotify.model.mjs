@@ -6,7 +6,7 @@ import {
     SPOTIFY_CLIENT_SECRET,
 } from '../auth/auth.constants.mjs'
 
-const spotifyModel = {}
+export const spotifyModel = {}
 
 spotifyModel.getRecentlyPlayedTracks = async (access_token) => {
     const path = '/me/player/recently-played'
@@ -96,5 +96,3 @@ spotifyModel.getNewAccessToken = async (refresh_token) => {
         console.error(error)
     }
 }
-
-export default spotifyModel
