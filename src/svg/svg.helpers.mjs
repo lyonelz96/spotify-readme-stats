@@ -1,3 +1,5 @@
+/* eslint indent: "off" */
+
 const svgHelpers = {}
 
 svgHelpers.genStyle = () => {
