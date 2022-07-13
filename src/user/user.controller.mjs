@@ -3,7 +3,7 @@ import { userModel } from './user.model.mjs'
 import svgHelpers from '../svg/svg.helpers.mjs'
 import { SVG_TYPES } from '../svg/svg.constants.mjs'
 
-const userController = {}
+export const userController = {}
 
 userController.recentlyPlayed = async (req, res) => {
     let svgDB = await userModel.getSVG(
@@ -159,5 +159,3 @@ userController.topItems = async (req, res) => {
 
     res.type('svg').send(svgDB.svg ? svgDB.svg : svgDB)
 }
-
-export default userController
