@@ -15,7 +15,7 @@ import { spotifyModel } from '../spotify/spotify.model.mjs'
 
 let state = null
 
-const authController = {}
+export const authController = {}
 
 authController.login = (req, res) => {
     state = nanoid()
@@ -89,5 +89,3 @@ authController.authCallback = async (req, res) => {
         }
     }
 }
-
-export default authController
