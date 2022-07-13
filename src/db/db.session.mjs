@@ -1,6 +1,6 @@
 import expressSession from 'express-session'
 import pgSession from 'connect-pg-simple'
-import db from './index.mjs'
+import { db } from './index.mjs'
 
 import { SESSION_SECRET } from './db.constants.mjs'
 
