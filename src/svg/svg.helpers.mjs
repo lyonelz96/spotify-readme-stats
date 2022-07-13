@@ -1,6 +1,6 @@
 /* eslint indent: "off" */
 
-const svgHelpers = {}
+export const svgHelpers = {}
 
 svgHelpers.genStyle = () => {
     return `
@@ -133,5 +133,3 @@ svgHelpers.genSVG = (mediaHeader, mediaObjs) => {
         </svg>
     `
 }
-
-export default svgHelpers
