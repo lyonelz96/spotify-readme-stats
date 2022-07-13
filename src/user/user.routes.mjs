@@ -2,7 +2,7 @@ import express from 'express'
 import { userController } from './user.controller.mjs'
 import { userMiddleware } from './user.middleware.mjs'
 
-const userRouter = express.Router()
+export const userRouter = express.Router()
 
 const middleware = [
     userMiddleware.checkIfUserExistsInDB,
@@ -20,5 +20,3 @@ userRouter.get(
     middleware,
     userController.topItems
 )
-
-export default userRouter
