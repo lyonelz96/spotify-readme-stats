@@ -1,6 +1,6 @@
 import express from 'express'
 import userController from './user.controller.mjs'
-import userMiddleware from './user.middleware.mjs'
+import { userMiddleware } from './user.middleware.mjs'
 
 const userRouter = express.Router()
 

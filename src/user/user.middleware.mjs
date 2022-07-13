@@ -1,6 +1,6 @@
 import { userModel } from './user.model.mjs'
 
-const userMiddleware = {}
+export const userMiddleware = {}
 
 userMiddleware.checkIfUserExistsInDB = async (req, res, next) => {
     const spotify_id = req.params.spotify_id
@@ -30,5 +30,3 @@ userMiddleware.setCacheControlHeader = (req, res, next) => {
     res.header('Cache-Control', 'no-cache')
     next()
 }
-
-export default userMiddleware
