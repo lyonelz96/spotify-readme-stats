@@ -7,6 +7,7 @@
         "dev": "NODE_ENV=development nodemon ./src/index.mjs",
         "prod": "NODE_ENV=production node ./src/index.mjs",
         "test": "jest",
+        "testverbose": "jest --verbose",
         "lint": "eslint_d \"./**\"",
         "formatcheck": "prettier --check .",
         "format": "prettier --write .",
