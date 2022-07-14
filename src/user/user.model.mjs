@@ -46,32 +46,18 @@ userModel.updateRefreshToken = async (spotify_id, refresh_token) => {
     }
 }
 
-userModel.getAllSVGS = async (spotify_id) => {
-    try {
-        const user_id = await userModel.getUserID(spotify_id)
-        const svgs = (
-            await db.query(
-                'SELECT svg, request_date, svg_type FROM svgs JOIN svg_types ON svgs.svg_type_id = svg_types.id AND user_id = $1',
-                [user_id]
-            )
-        ).rows
-
-        return svgs
-    } catch (error) {
-        console.error(error)
-    }
-}
-
 userModel.getSVG = async (spotify_id, type) => {
     try {
-        const svgs = await userModel.getAllSVGS(spotify_id)
+        const user_id = await userModel.getUserID(spotify_id)
+        const type_id = await svgTypeModel.getTypeID(type)
 
-        if (svgs.length === 0) {
-            return null
-        } else {
-            const svg = svgs.find((svg) => svg.svg_type === type)
-            return svg ? svg : null
-        }
+        const { rows } = await db.query(
+            'SELECT svg, svg_type, request_date FROM svgs INNER JOIN svg_types ON svgs.svg_type_id = svg_types.id WHERE user_id = $1 AND svg_types.id = $2',
+            [user_id, type_id]
+        )
+        const svg = rows[0]
+
+        return svg ? svg : null
     } catch (error) {
         console.error(error)
     }
@@ -79,8 +65,8 @@ userModel.getSVG = async (spotify_id, type) => {
 
 userModel.updateSVG = async (spotify_id, type, svg) => {
     try {
-        const type_id = await svgTypeModel.getTypeID(type)
         const user_id = await userModel.getUserID(spotify_id)
+        const type_id = await svgTypeModel.getTypeID(type)
         const request_date = Date().getTime()
 
         await db.query(
@@ -94,8 +80,8 @@ userModel.updateSVG = async (spotify_id, type, svg) => {
 
 userModel.createSVG = async (spotify_id, type, svg) => {
     try {
-        const type_id = await svgTypeModel.getTypeID(type)
         const user_id = await userModel.getUserID(spotify_id)
+        const type_id = await svgTypeModel.getTypeID(type)
         const request_date = Date().getTime()
 
         await db.query(
