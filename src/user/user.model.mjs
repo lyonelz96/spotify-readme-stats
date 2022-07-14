@@ -26,6 +26,14 @@ userModel.create = async (spotify_id, refresh_token) => {
     }
 }
 
+userModel.getUserID = async (spotify_id) => {
+    try {
+        return (await userModel.find(spotify_id)).id
+    } catch (error) {
+        console.error(error)
+    }
+}
+
 userModel.updateRefreshToken = async (spotify_id, refresh_token) => {
     try {
         await db.query(
@@ -39,7 +47,7 @@ userModel.updateRefreshToken = async (spotify_id, refresh_token) => {
 
 userModel.getAllSVGS = async (spotify_id) => {
     try {
-        const user_id = (await userModel.find(spotify_id)).id
+        const user_id = await userModel.getUserID(spotify_id)
         const svgs = (
             await db.query(
                 'SELECT svg, request_date, svg_type FROM svgs JOIN svg_types ON svgs.svg_type_id = svg_types.id AND user_id = $1',
@@ -75,7 +83,7 @@ userModel.updateSVG = async (spotify_id, type, svg) => {
                 type,
             ])
         ).rows[0].id
-        const user_id = (await userModel.find(spotify_id)).id
+        const user_id = userModel.getUserID(spotify_id)
 
         await db.query(
             'UPDATE svgs SET svg = $1 WHERE user_id = $2 AND svg_type_id = $3',
@@ -93,8 +101,8 @@ userModel.createSVG = async (spotify_id, type, svg) => {
                 type,
             ])
         ).rows[0].id
-        const user_id = (await userModel.find(spotify_id)).id
-        const request_date = new Date().getTime()
+        const user_id = await userModel.getUserID(spotify_id)
+        const request_date = Date().getTime()
 
         await db.query(
             'INSERT INTO svgs (user_id, svg_type_id, svg, request_date) VALUES ($1, $2, $3, $4)',
