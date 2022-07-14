@@ -1,4 +1,4 @@
-import db from '../db/index.mjs'
+import { db } from '../db/index.mjs'
 
 export const svgTypeModel = {}
 

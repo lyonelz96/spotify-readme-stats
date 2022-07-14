@@ -67,7 +67,7 @@ userModel.updateSVG = async (spotify_id, type, svg) => {
     try {
         const user_id = await userModel.getUserID(spotify_id)
         const type_id = await svgTypeModel.getTypeID(type)
-        const request_date = Date().getTime()
+        const request_date = new Date().getTime()
 
         await db.query(
             'UPDATE svgs SET svg = $1, request_date = $2 WHERE user_id = $3 AND svg_type_id = $4',
@@ -82,7 +82,7 @@ userModel.createSVG = async (spotify_id, type, svg) => {
     try {
         const user_id = await userModel.getUserID(spotify_id)
         const type_id = await svgTypeModel.getTypeID(type)
-        const request_date = Date().getTime()
+        const request_date = new Date().getTime()
 
         await db.query(
             'INSERT INTO svgs (user_id, svg_type_id, svg, request_date) VALUES ($1, $2, $3, $4)',
