@@ -1,4 +1,5 @@
 import { db } from '../db/index.mjs'
+import { svgTypeModel } from '../svg_type/svg_type.model.mjs'
 
 export const userModel = {}
 
@@ -78,12 +79,8 @@ userModel.getSVG = async (spotify_id, type) => {
 
 userModel.updateSVG = async (spotify_id, type, svg) => {
     try {
-        const type_id = (
-            await db.query('SELECT id FROM svg_types WHERE svg_type = $1', [
-                type,
-            ])
-        ).rows[0].id
-        const user_id = userModel.getUserID(spotify_id)
+        const type_id = await svgTypeModel.getTypeID(type)
+        const user_id = await userModel.getUserID(spotify_id)
 
         await db.query(
             'UPDATE svgs SET svg = $1 WHERE user_id = $2 AND svg_type_id = $3',
@@ -96,11 +93,7 @@ userModel.updateSVG = async (spotify_id, type, svg) => {
 
 userModel.createSVG = async (spotify_id, type, svg) => {
     try {
-        const type_id = (
-            await db.query('SELECT id FROM svg_types WHERE svg_type = $1', [
-                type,
-            ])
-        ).rows[0].id
+        const type_id = await svgTypeModel.getTypeID(type)
         const user_id = await userModel.getUserID(spotify_id)
         const request_date = Date().getTime()
 
