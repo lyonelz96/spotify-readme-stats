@@ -81,10 +81,11 @@ userModel.updateSVG = async (spotify_id, type, svg) => {
     try {
         const type_id = await svgTypeModel.getTypeID(type)
         const user_id = await userModel.getUserID(spotify_id)
+        const request_date = Date().getTime()
 
         await db.query(
-            'UPDATE svgs SET svg = $1 WHERE user_id = $2 AND svg_type_id = $3',
-            [svg, user_id, type_id]
+            'UPDATE svgs SET svg = $1, request_date = $2 WHERE user_id = $3 AND svg_type_id = $4',
+            [svg, request_date, user_id, type_id]
         )
     } catch (error) {
         console.error(error)
