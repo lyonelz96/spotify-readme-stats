@@ -1,4 +1,54 @@
 /* eslint indent: "off" */
+import { spotifyModel } from '../spotify/spotify.model.mjs'
+import { SVG_TYPES } from '../svg_type/svg_type.constants.mjs'
+
+const genSVGMediaObjsRecentlyPlayed = async (access_token) => {
+    const recentlyPlayed = await spotifyModel.getRecentlyPlayedTracks(
+        access_token
+    )
+
+    let mediaObjs = ''
+
+    for (const item of recentlyPlayed) {
+        const coverURL = item.track.album.images[0].url
+        const song = item.track.name
+        const artist = item.track.artists[0].name
+
+        mediaObjs += await svgHelpers.genMediaObject(coverURL, song, artist)
+    }
+
+    return mediaObjs
+}
+
+const genSVGMediaObjsTopTracks = async (access_token) => {
+    const topTracks = await spotifyModel.getTopItems('tracks', access_token)
+
+    let mediaObjs = ''
+
+    for (const item of topTracks) {
+        const coverURL = item.album.images[0].url
+        const track = item.name
+        const artist = item.artists[0].name
+
+        mediaObjs += await svgHelpers.genMediaObject(coverURL, track, artist)
+    }
+
+    return mediaObjs
+}
+
+const genSVGMediaObjsTopArtists = async (access_token) => {
+    const topArtists = await spotifyModel.getTopItems('artists', access_token)
+
+    let mediaObjs = ''
+
+    for (const item of topArtists) {
+        const coverURL = item.images[0].url
+        const artist = item.name
+
+        mediaObjs += await svgHelpers.genMediaObject(coverURL, artist, null)
+    }
+    return mediaObjs
+}
 
 export const svgHelpers = {}
 
@@ -118,6 +168,20 @@ svgHelpers.genMediaObject = async (coverURL, heading, subHeading) => {
                 </div>
             </div>
     `
+}
+
+svgHelpers.genSVGMediaObjsByType = async (type, access_token) => {
+    if (type === SVG_TYPES.RecentlyPlayed) {
+        return await genSVGMediaObjsRecentlyPlayed(access_token)
+    }
+
+    if (type === SVG_TYPES.TopTracks) {
+        return await genSVGMediaObjsTopTracks(access_token)
+    }
+
+    if (type === SVG_TYPES.TopArtists) {
+        return await genSVGMediaObjsTopArtists(access_token)
+    }
 }
 
 svgHelpers.genSVG = (mediaHeader, mediaObjs) => {

@@ -16,7 +16,12 @@ userRouter.get(
     userController.recentlyPlayed
 )
 userRouter.get(
-    '/user/:spotify_id/top-items/:type',
+    '/user/:spotify_id/top-tracks',
     middleware,
-    userController.topItems
+    userController.topTracks
+)
+userRouter.get(
+    '/user/:spotify_id/top-artists',
+    middleware,
+    userController.topArtists
 )
