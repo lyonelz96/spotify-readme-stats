@@ -26,15 +26,14 @@ app.use(authRouter)
 app.use(userRouter)
 
 app.get('/', (req, res) => {
-    if(req.session.user){
+    if (req.session.user) {
         res.json({
             spotify_username: req.session.user.spotify_display_name,
-            spotify_id: req.session.user.spotify_id
+            spotify_id: req.session.user.spotify_id,
         })
-    }
-    else {
+    } else {
         res.json({
-            message: 'No user in session found'
+            message: 'No user in session found',
         })
     }
 })
