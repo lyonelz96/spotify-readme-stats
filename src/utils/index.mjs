@@ -25,3 +25,12 @@ export const localBase64Img = (img) => {
 
     return base64Image
 }
+
+export const escapeXMLChars = (string) => {
+    return string
+        .replace('&', '&amp;')
+        .replace('"', '&quot;')
+        .replace("'", '&apos;') // eslint-disable-line quotes
+        .replace('>', '&gt;')
+        .replace('<', '&lt;')
+}

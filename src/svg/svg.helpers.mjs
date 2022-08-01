@@ -1,6 +1,7 @@
 /* eslint indent: "off" */
 import { spotifyModel } from '../spotify/spotify.model.mjs'
 import { SVG_TYPES } from '../svg_type/svg_type.constants.mjs'
+import { escapeXMLChars } from '../utils/index.mjs'
 
 const genSVGMediaObjsRecentlyPlayed = async (access_token) => {
     const recentlyPlayed = await spotifyModel.getRecentlyPlayedTracks(
@@ -155,7 +156,8 @@ svgHelpers.genMediaHeader = (title) => {
     `
 }
 svgHelpers.genMediaObject = async (coverURL, heading, subHeading) => {
-    const sHeading = subHeading ? `<h3>${subHeading}</h3>` : ''
+    const escapedHeading = escapeXMLChars(heading)
+    const escapedSubHeading = subHeading ? `<h3>${escapeXMLChars(subHeading)}</h3>` : ''
 
     return `
             <div class="container-media-item">
@@ -163,8 +165,8 @@ svgHelpers.genMediaObject = async (coverURL, heading, subHeading) => {
                     coverURL
                 )}" alt="Cover" class="cover" />
                 <div class="container-media-headings">
-                    <h2>${heading}</h2>
-                    ${sHeading}
+                    <h2>${escapedHeading}</h2>
+                    ${escapedSubHeading}
                 </div>
             </div>
     `
