@@ -9,8 +9,6 @@ import { session } from './db/db.session.mjs'
 import { authRouter } from './auth/auth.routes.mjs'
 import { userRouter } from './user/user.routes.mjs'
 
-import { filePathRelativeToCWD } from './utils/index.mjs'
-
 const app = express()
 const port = process.env.PORT || 3000
 
@@ -28,18 +26,28 @@ app.use(authRouter)
 app.use(userRouter)
 
 app.get('/', (req, res) => {
-    res.send('Hello World!')
+    if(req.session.user){
+        res.json({
+            spotify_username: req.session.user.spotify_display_name,
+            spotify_id: req.session.user.spotify_id
+        })
+    }
+    else {
+        res.json({
+            message: 'No user in session found'
+        })
+    }
 })
 
 app.get('/#', (req, res) => {
     res.send('Oops something went wrong!')
 })
 
-app.get('/login', (req, res) => {
+app.get('/authorize', (req, res) => {
     if (req.session.user) {
         res.redirect('/')
     } else {
-        res.sendFile(filePathRelativeToCWD('src/login.html'))
+        res.redirect('/auth/login')
     }
 })
 
