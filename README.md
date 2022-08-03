@@ -7,9 +7,9 @@ about your Spotify such as Top Artists, Recently Played and Top Artists. You
 can use these to prettify your github profile!
 
 ### Examples
-![Recently Played]()
-![Top Tracks]()
-![Top Artists]()
+![Recently Played](https://spotify-readme-stats.herokuapp.com/user/o7nem2dkxnsibr6fi9w1jo9v4/recently-played)
+![Top Tracks](https://spotify-readme-stats.herokuapp.com/user/o7nem2dkxnsibr6fi9w1jo9v4/top-tracks)
+![Top Artists](https://spotify-readme-stats.herokuapp.com/user/o7nem2dkxnsibr6fi9w1jo9v4/top-artists)
 
 ## Why?
 
@@ -19,7 +19,7 @@ some server and just displaying it using github markdown. Decided to give it a
 go and here we are.
 
 ## How To Use
-  - Go to [deployed url to auth goes here]()
+  - Go to [https://spotify-readme-stats.herokuapp.com/login](https://spotify-readme-stats.herokuapp.com/login)
     - This should take you through the Auth flow for Spotify
     - The scopes I require are the following:
       - user-read-recently-played
@@ -38,7 +38,7 @@ go and here we are.
        - Will serve the top tracks svg
    - To use those svgs in a README.md you just have to treat like any other img on the web
      - `![svg](svg url goes here)`
-       - E.g. `![Recently Played](deployed url goes here /user/:spotify_id/recently-played)`
+       - E.g. `![Recently Played](https://spotify-readme-stats.herokuapp.com/user/:spotify_id/recently-played)`
     
   
 
