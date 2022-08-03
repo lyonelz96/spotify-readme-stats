@@ -7,9 +7,9 @@ about your Spotify such as Top Artists, Recently Played and Top Artists. You
 can use these to prettify your github profile!
 
 ### Examples
-![Recently Played](https://spotify-readme-stats.herokuapp.com/user/o7nem2dkxnsibr6fi9w1jo9v4/recently-played)
-![Top Tracks](https://spotify-readme-stats.herokuapp.com/user/o7nem2dkxnsibr6fi9w1jo9v4/top-tracks)
-![Top Artists](https://spotify-readme-stats.herokuapp.com/user/o7nem2dkxnsibr6fi9w1jo9v4/top-artists)
+[![Recently Played](https://spotify-readme-stats.herokuapp.com/user/o7nem2dkxnsibr6fi9w1jo9v4/recently-played)](https://spotify-readme-stats.herokuapp.com/user/o7nem2dkxnsibr6fi9w1jo9v4/recently-played)
+[![Top Tracks](https://spotify-readme-stats.herokuapp.com/user/o7nem2dkxnsibr6fi9w1jo9v4/top-tracks)](https://spotify-readme-stats.herokuapp.com/user/o7nem2dkxnsibr6fi9w1jo9v4/top-tracks)
+[![Top Artists](https://spotify-readme-stats.herokuapp.com/user/o7nem2dkxnsibr6fi9w1jo9v4/top-artists)](https://spotify-readme-stats.herokuapp.com/user/o7nem2dkxnsibr6fi9w1jo9v4/top-artists)
 
 ## Why?
 
@@ -39,6 +39,8 @@ go and here we are.
    - To use those svgs in a README.md you just have to treat like any other img on the web
      - `![svg](svg url goes here)`
        - E.g. `![Recently Played](https://spotify-readme-stats.herokuapp.com/user/:spotify_id/recently-played)`
+       - `[![Recently Played](https://spotify-readme-stats.herokuapp.com/user/:spotify_id/recently-played)](https://spotify-readme-stats.herokuapp.com/user/:spotify_id/recently-played)`
+         - To go directly to the website instead of githubs camo thingy
     
   
 
