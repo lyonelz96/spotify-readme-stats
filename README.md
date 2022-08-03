@@ -69,7 +69,7 @@ Here's some stuff that I may tackle at some point or I just couldn't figure it o
       - Recently Played can be refreshed every 15 mins
       - Top Artists and Top Tracks can be refreshed every 4 weeks
     - If you go to the website that serves the svg while authorized and it hasn't been that long for the svg you're looking for you'll just get the one stored in the DB and not make a request to spotify
-    - My original thought was to update them if possible by just visiting your github readme by ran into some issues with cookies and just gave up on figuring it out haha
+    - My original thought was to update them if possible by just visiting your github readme but I couldn't really figure out how to make an 'authorized' request from the markdown file on github to the website (I don't even know if it's possible at this point) and just gave up on figuring it out haha
     
   - Clean up some of the code
     - Specifically the user controller. I just think it's pretty ugly and there's some repetition that could be cleaned up. I just have to figure out a way to generalize the generation of the SVGS since each one needs a bit different pieces of information but the 'flow' on how it's done is essentially the same.
