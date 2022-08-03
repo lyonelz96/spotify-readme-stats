@@ -157,7 +157,9 @@ svgHelpers.genMediaHeader = (title) => {
 }
 svgHelpers.genMediaObject = async (coverURL, heading, subHeading) => {
     const escapedHeading = escapeXMLChars(heading)
-    const escapedSubHeading = subHeading ? `<h3>${escapeXMLChars(subHeading)}</h3>` : ''
+    const escapedSubHeading = subHeading
+        ? `<h3>${escapeXMLChars(subHeading)}</h3>`
+        : ''
 
     return `
             <div class="container-media-item">
