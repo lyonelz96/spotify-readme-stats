@@ -184,7 +184,7 @@ svgHelpers.genSVGMediaObjsByType = async (type, access_token) => {
 }
 
 svgHelpers.genSVG = (mediaHeader, mediaObjs) => {
-    const width = '275'
+    const width = '250'
     const height = '350'
 
     return `
