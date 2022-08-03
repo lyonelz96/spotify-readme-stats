@@ -48,7 +48,11 @@ userController.recentlyPlayed = async (req, res) => {
         }
     }
 
-    res.type('svg').send(svgDB.svg ? svgDB.svg : svgDB)
+    if (svgDB === null) {
+        res.send('SVG not found!')
+    } else {
+        res.type('svg').send(svgDB.svg ? svgDB.svg : svgDB)
+    }
 }
 
 userController.topTracks = async (req, res) => {
@@ -94,7 +98,11 @@ userController.topTracks = async (req, res) => {
         }
     }
 
-    res.type('svg').send(svgDB.svg ? svgDB.svg : svgDB)
+    if (svgDB === null) {
+        res.send('SVG not found!')
+    } else {
+        res.type('svg').send(svgDB.svg ? svgDB.svg : svgDB)
+    }
 }
 
 userController.topArtists = async (req, res) => {
@@ -140,5 +148,9 @@ userController.topArtists = async (req, res) => {
         }
     }
 
-    res.type('svg').send(svgDB.svg ? svgDB.svg : svgDB)
+    if (svgDB === null) {
+        res.send('SVG not found!')
+    } else {
+        res.type('svg').send(svgDB.svg ? svgDB.svg : svgDB)
+    }
 }
