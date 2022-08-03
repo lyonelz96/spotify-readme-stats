@@ -47,6 +47,7 @@ go and here we are.
 ## How To Work With It Locally
   - You need [Docker](https://www.docker.com/) and [Node JS](https://nodejs.org/en/) installed
   - Clone repo whichever way you prefer `git clone https://github.com/lyonelz96/spotify-readme-stats.git`
+  - `cd spotify-readme-stats && npm i`
   - Create a spotify app. 
     - Read more about it [here](https://developer.spotify.com/documentation/web-api/quick-start/)
   - Set up environment variables
