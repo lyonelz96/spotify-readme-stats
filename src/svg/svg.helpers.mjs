@@ -61,11 +61,6 @@ svgHelpers.genStyle = () => {
             padding: 0;
         }
 
-        .container {
-            width: 100%;
-            height: 100%;
-        }
-
         .fancy-hr {
             width: 100%;
             border: 0;
@@ -189,10 +184,13 @@ svgHelpers.genSVGMediaObjsByType = async (type, access_token) => {
 }
 
 svgHelpers.genSVG = (mediaHeader, mediaObjs) => {
+    const width = '275'
+    const height = '350'
+
     return `
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 325 350" width="325" height="350">
-            <foreignObject width="100%" height="100%">
-                <div class="container" xmlns="http://www.w3.org/1999/xhtml">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}">
+            <foreignObject width="${width}px" height="${height}px">
+                <div class="container" xmlns="http://www.w3.org/1999/xhtml" style="width: ${width}px; height: ${height}px;">
                     ${svgHelpers.genStyle()}
                     ${mediaHeader}
                     ${mediaObjs}
