@@ -42,7 +42,7 @@ app.get('/#', (req, res) => {
     res.send('Oops something went wrong!')
 })
 
-app.get('/authorize', (req, res) => {
+app.get('/login', (req, res) => {
     if (req.session.user) {
         res.redirect('/')
     } else {
