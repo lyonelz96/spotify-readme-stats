@@ -78,15 +78,15 @@ svgHelpers.genStyle = () => {
         }
 
         h1 {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
 
         h2 {
-            font-size: 1.0rem;
+            font-size: 0.9rem;
         }
 
         h3 {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
         }
 
         .spotify-logo,
