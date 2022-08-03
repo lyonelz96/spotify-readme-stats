@@ -20,5 +20,6 @@ go and here we are.
 
 # How To Use
 
-# Future
+# How To Work With It Locally
 
+# Future
