@@ -1,5 +1,5 @@
 export const SVG_TYPES = {
-    TopArtists: 'TopArtists',
-    TopTracks: 'TopTracks',
-    RecentlyPlayed: 'RecentlyPlayed',
+    TopArtists: 'Top Artists',
+    TopTracks: 'Top Tracks',
+    RecentlyPlayed: 'Recently Played',
 }

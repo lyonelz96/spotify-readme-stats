@@ -19,151 +19,50 @@ userController.index = (req, res) => {
     })
 }
 
-userController.recentlyPlayed = async (req, res) => {
-    let svgDB = await userModel.getSVG(
-        req.params.spotify_id,
-        SVG_TYPES.RecentlyPlayed
-    )
+userController.svg = (svg_type) => async (req, res) => {
+    let svgDB = await userModel.getSVG(req.params.spotify_id, svg_type)
 
-    if (req.userSameAsSession) {
-        const requestDate = svgDB === null ? null : svgDB.request_date
-        const now = svgDB === null ? null : new Date()
+    const requestDate = svgDB === null ? null : svgDB.request_date
+    const now = svgDB === null ? null : new Date()
+    const diffInMins = svgDB === null ? null : (now - requestDate) / 1000 / 60
 
-        const diffInMins =
-            svgDB === null ? null : (now - requestDate) / 1000 / 60
+    let isUpdateable = null
 
-        if (svgDB === null || diffInMins >= 15) {
-            if (Date.now() > req.session.user.token_expire_date) {
-                await userUtils.updateAccessToken(req)
-            }
-
-            const mediaHeader = svgHelpers.genMediaHeader('Recently Played')
-            const mediaObjs = await svgHelpers.genSVGMediaObjsByType(
-                SVG_TYPES.RecentlyPlayed,
-                req.session.user.access_token
-            )
-            const svg = svgHelpers.genSVG(mediaHeader, mediaObjs)
-
-            if (svgDB === null) {
-                await userModel.createSVG(
-                    req.session.user.spotify_id,
-                    SVG_TYPES.RecentlyPlayed,
-                    svg
-                )
-            } else {
-                await userModel.updateSVG(
-                    req.session.user.spotify_id,
-                    SVG_TYPES.RecentlyPlayed,
-                    svg
-                )
-            }
-
-            svgDB = svg
-        }
-    }
-
-    if (svgDB === null) {
-        res.send('SVG not found!')
+    if (svg_type === SVG_TYPES.RecentlyPlayed) {
+        isUpdateable = diffInMins >= 15 ? true : false
     } else {
-        res.type('svg').send(svgDB.svg ? svgDB.svg : svgDB)
+        isUpdateable = diffInMins >= 60 * 24 ? true : false
     }
-}
 
-userController.topTracks = async (req, res) => {
-    let svgDB = await userModel.getSVG(
-        req.params.spotify_id,
-        SVG_TYPES.TopTracks
-    )
+    if (svgDB === null || isUpdateable) {
+        const user = await userModel.find(req.params.spotify_id)
 
-    if (req.userSameAsSession) {
-        const requestDate = svgDB === null ? null : svgDB.request_date
-        const now = svgDB === null ? null : new Date()
-
-        const diffInDays =
-            svgDB === null ? null : (now - requestDate) / 1000 / 60 / 60 / 24
-
-        if (svgDB === null || diffInDays >= 30) {
-            if (Date.now() > req.session.user.token_expire_date) {
-                await userUtils.updateAccessToken(req)
-            }
-
-            const mediaHeader = svgHelpers.genMediaHeader('Top Tracks')
-            const mediaObjs = await svgHelpers.genSVGMediaObjsByType(
-                SVG_TYPES.TopTracks,
-                req.session.user.access_token
+        if (Date.now() > user.access_token_expire_date) {
+            const { access_token } = await userModel.updateAccessToken(
+                user.spotify_id,
+                await userUtils.getNewAccessToken(user.spotify_id)
             )
-            const svg = svgHelpers.genSVG(mediaHeader, mediaObjs)
-
-            if (svgDB === null) {
-                await userModel.createSVG(
-                    req.session.user.spotify_id,
-                    SVG_TYPES.TopTracks,
-                    svg
-                )
-            } else {
-                await userModel.updateSVG(
-                    req.session.user.spotify_id,
-                    SVG_TYPES.TopTracks,
-                    svg
-                )
-            }
-
-            svgDB = svg
+            user.access_token = access_token
         }
+
+        const mediaHeader = svgHelpers.genMediaHeader(svg_type)
+        const mediaObjs = await svgHelpers.genSVGMediaObjsByType(
+            svg_type,
+            user.access_token
+        )
+        const svg = svgHelpers.genSVG(mediaHeader, mediaObjs)
+
+        if (svgDB === null) {
+            await userModel.createSVG(user.spotify_id, svg_type, svg)
+        } else {
+            await userModel.updateSVG(user.spotify_id, svg_type, svg)
+        }
+
+        svgDB = svg
     }
 
     if (svgDB === null) {
-        res.send('SVG not found!')
-    } else {
-        res.type('svg').send(svgDB.svg ? svgDB.svg : svgDB)
-    }
-}
-
-userController.topArtists = async (req, res) => {
-    let svgDB = await userModel.getSVG(
-        req.params.spotify_id,
-        SVG_TYPES.TopArtists
-    )
-
-    if (req.userSameAsSession) {
-        const requestDate = svgDB === null ? null : svgDB.request_date
-        const now = svgDB === null ? null : new Date()
-
-        const diffInDays =
-            svgDB === null ? null : (now - requestDate) / 1000 / 60 / 60 / 24
-
-        if (svgDB === null || diffInDays >= 30) {
-            if (Date.now() > req.session.user.token_expire_date) {
-                await userUtils.updateAccessToken(req)
-            }
-
-            const mediaHeader = svgHelpers.genMediaHeader('Top Artists')
-            const mediaObjs = await svgHelpers.genSVGMediaObjsByType(
-                SVG_TYPES.TopArtists,
-                req.session.user.access_token
-            )
-            const svg = svgHelpers.genSVG(mediaHeader, mediaObjs)
-
-            if (svgDB === null) {
-                await userModel.createSVG(
-                    req.session.user.spotify_id,
-                    SVG_TYPES.TopArtists,
-                    svg
-                )
-            } else {
-                await userModel.updateSVG(
-                    req.session.user.spotify_id,
-                    SVG_TYPES.TopArtists,
-                    svg
-                )
-            }
-
-            svgDB = svg
-        }
-    }
-
-    if (svgDB === null) {
-        res.send('SVG not found!')
+        res.status(404).send('SVG not found!')
     } else {
         res.type('svg').send(svgDB.svg ? svgDB.svg : svgDB)
     }

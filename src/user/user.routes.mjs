@@ -1,6 +1,7 @@
 import express from 'express'
 import { userController } from './user.controller.mjs'
 import { userMiddleware } from './user.middleware.mjs'
+import { SVG_TYPES } from '../svg_type/svg_type.constants.mjs'
 
 export const userRouter = express.Router()
 
@@ -18,15 +19,15 @@ userRouter.get(
 userRouter.get(
     '/user/:spotify_id/recently-played',
     middleware,
-    userController.recentlyPlayed
+    userController.svg(SVG_TYPES.RecentlyPlayed)
 )
 userRouter.get(
     '/user/:spotify_id/top-tracks',
     middleware,
-    userController.topTracks
+    userController.svg(SVG_TYPES.TopTracks)
 )
 userRouter.get(
     '/user/:spotify_id/top-artists',
     middleware,
-    userController.topArtists
+    userController.svg(SVG_TYPES.TopArtists)
 )

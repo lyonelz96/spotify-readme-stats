@@ -1,5 +1,6 @@
 import { db } from '../db/index.mjs'
 import { svgTypeModel } from '../svg_type/svg_type.model.mjs'
+import { userUtils } from './user.utils.mjs'
 
 export const userModel = {}
 
@@ -17,14 +18,15 @@ userModel.find = async (spotify_id) => {
 }
 
 userModel.create = async (spotify_id, refresh_token, access_token) => {
-    const now = new Date()
-
-    // Represented in ms since EPOCH
-    const access_token_expire_date = now.setMinutes(now.getMinutes() + 50) // 50 minutes from now
     try {
         await db.query(
             'INSERT INTO users (spotify_id, refresh_token, access_token, access_token_expire_date) VALUES ($1, $2, $3, $4)',
-            [spotify_id, refresh_token, access_token, access_token_expire_date]
+            [
+                spotify_id,
+                refresh_token,
+                access_token,
+                userUtils.genAccessTokenExpireDate(),
+            ]
         )
     } catch (error) {
         console.error(error)
@@ -40,15 +42,36 @@ userModel.getUserID = async (spotify_id) => {
 }
 
 userModel.updateTokens = async (spotify_id, refresh_token, access_token) => {
-    const now = new Date()
-
-    // Represented in ms since EPOCH
-    const access_token_expire_date = now.setMinutes(now.getMinutes() + 50) // 50 minutes from now
     try {
         await db.query(
             'UPDATE users SET refresh_token = $1, access_token = $2, access_token_expire_date = $3 WHERE spotify_id = $4',
-            [refresh_token, access_token, access_token_expire_date, spotify_id]
+            [
+                refresh_token,
+                access_token,
+                userUtils.genAccessTokenExpireDate(),
+                spotify_id,
+            ]
         )
+
+        return {
+            access_token: access_token,
+            refresh_token: refresh_token,
+        }
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+userModel.updateAccessToken = async (spotify_id, access_token) => {
+    try {
+        await db.query(
+            'UPDATE users SET access_token = $1, access_token_expire_date = $2 WHERE spotify_id = $3',
+            [access_token, userUtils.genAccessTokenExpireDate(), spotify_id]
+        )
+
+        return {
+            access_token: access_token,
+        }
     } catch (error) {
         console.error(error)
     }
