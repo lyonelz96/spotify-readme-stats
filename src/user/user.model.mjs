@@ -46,7 +46,7 @@ userModel.updateTokens = async (spotify_id, refresh_token, access_token) => {
     const access_token_expire_date = now.setMinutes(now.getMinutes() + 50) // 50 minutes from now
     try {
         await db.query(
-            'UPDATE users SET refresh_token = $1, access_token = $2, access_token_expire_date = $3 WHERE spotify_id = $2',
+            'UPDATE users SET refresh_token = $1, access_token = $2, access_token_expire_date = $3 WHERE spotify_id = $4',
             [refresh_token, access_token, access_token_expire_date, spotify_id]
         )
     } catch (error) {
