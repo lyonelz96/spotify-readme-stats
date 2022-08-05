@@ -29,9 +29,9 @@ userController.svg = (svg_type) => async (req, res) => {
     let isUpdateable = null
 
     if (svg_type === SVG_TYPES.RecentlyPlayed) {
-        isUpdateable = diffInMins >= 15 ? true : false
+        isUpdateable = diffInMins >= 15 ? true : false // 15 Mins
     } else {
-        isUpdateable = diffInMins >= 60 * 24 ? true : false
+        isUpdateable = diffInMins >= 60 * 24 ? true : false // 24 Hours
     }
 
     if (svgDB === null || isUpdateable) {

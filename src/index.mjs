@@ -22,14 +22,6 @@ if (process.env.NODE_ENV === 'production') {
 app.use(authRouter)
 app.use(userRouter)
 
-app.get('/:spotify_id', (req, res) => {
-    res.send({
-        'Recently Played': `${req.get('Host')}/user/${req.params.spotify_id}/recently-played`,
-        'Top Tracks': `${req.get('Host')}/user/${req.params.spotify_id}/top-tracks`,
-        'Top Artists': `${req.get('Host')}/user/${req.params.spotify_id}/top-artists`,
-    })
-})
-
 app.listen(port, () => {
     if (process.env.NODE_ENV === 'development') {
         console.log(`Listening on ${port}`)
