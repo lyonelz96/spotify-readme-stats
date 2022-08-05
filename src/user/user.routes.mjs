@@ -10,6 +10,8 @@ const middleware = [
     userMiddleware.setCacheControlHeader,
 ]
 
+userRouter.get('/user/:spotify_id', userController.index)
+
 userRouter.get(
     '/user/:spotify_id/recently-played',
     middleware,

@@ -4,8 +4,6 @@ import express from 'express'
 import morgan from 'morgan'
 import bodyParser from 'body-parser'
 
-import { session } from './db/db.session.mjs'
-
 import { authRouter } from './auth/auth.routes.mjs'
 import { userRouter } from './user/user.routes.mjs'
 
@@ -20,34 +18,16 @@ app.use(bodyParser.json())
 if (process.env.NODE_ENV === 'production') {
     app.set('trust proxy', 1)
 }
-app.use(session)
 
 app.use(authRouter)
 app.use(userRouter)
 
-app.get('/', (req, res) => {
-    if (req.session.user) {
-        res.json({
-            spotify_username: req.session.user.spotify_display_name,
-            spotify_id: req.session.user.spotify_id,
-        })
-    } else {
-        res.json({
-            message: 'No user in session found',
-        })
-    }
-})
-
-app.get('/#', (req, res) => {
-    res.send('Oops something went wrong!')
-})
-
-app.get('/login', (req, res) => {
-    if (req.session.user) {
-        res.redirect('/')
-    } else {
-        res.redirect('/auth/login')
-    }
+app.get('/:spotify_id', (req, res) => {
+    res.send({
+        'Recently Played': `${req.get('Host')}/user/${req.params.spotify_id}/recently-played`,
+        'Top Tracks': `${req.get('Host')}/user/${req.params.spotify_id}/top-tracks`,
+        'Top Artists': `${req.get('Host')}/user/${req.params.spotify_id}/top-artists`,
+    })
 })
 
 app.listen(port, () => {

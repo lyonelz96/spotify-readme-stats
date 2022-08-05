@@ -16,11 +16,15 @@ userModel.find = async (spotify_id) => {
     }
 }
 
-userModel.create = async (spotify_id, refresh_token) => {
+userModel.create = async (spotify_id, refresh_token, access_token) => {
+    const now = new Date()
+
+    // Represented in ms since EPOCH
+    const access_token_expire_date = now.setMinutes(now.getMinutes() + 50) // 50 minutes from now
     try {
         await db.query(
-            'INSERT INTO users (spotify_id, refresh_token) VALUES ($1, $2)',
-            [spotify_id, refresh_token]
+            'INSERT INTO users (spotify_id, refresh_token, access_token, access_token_expire_date) VALUES ($1, $2, $3, $4)',
+            [spotify_id, refresh_token, access_token, access_token_expire_date]
         )
     } catch (error) {
         console.error(error)
@@ -35,11 +39,15 @@ userModel.getUserID = async (spotify_id) => {
     }
 }
 
-userModel.updateRefreshToken = async (spotify_id, refresh_token) => {
+userModel.updateTokens = async (spotify_id, refresh_token, access_token) => {
+    const now = new Date()
+
+    // Represented in ms since EPOCH
+    const access_token_expire_date = now.setMinutes(now.getMinutes() + 50) // 50 minutes from now
     try {
         await db.query(
-            'UPDATE users SET refresh_token = $1 WHERE spotify_id = $2',
-            [refresh_token, spotify_id]
+            'UPDATE users SET refresh_token = $1, access_token = $2, access_token_expire_date = $3 WHERE spotify_id = $2',
+            [refresh_token, access_token, access_token_expire_date, spotify_id]
         )
     } catch (error) {
         console.error(error)

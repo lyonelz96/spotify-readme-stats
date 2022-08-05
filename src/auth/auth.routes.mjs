@@ -3,5 +3,9 @@ import { authController } from './auth.controller.mjs'
 
 export const authRouter = express.Router()
 
-authRouter.get('/auth/login', authController.login)
+// NOTE
+// Rate-Limit? Don't want people spamming Spotify
+// Could also use a cookie
+
+authRouter.get('/auth/authorize', authController.authorize)
 authRouter.get('/auth/callback', authController.authCallback)

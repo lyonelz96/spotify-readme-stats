@@ -5,6 +5,20 @@ import { SVG_TYPES } from '../svg_type/svg_type.constants.mjs'
 
 export const userController = {}
 
+userController.index = (req, res) => {
+    res.send({
+        'Recently Played': `${req.get('Host')}/user/${
+            req.params.spotify_id
+        }/recently-played`,
+        'Top Tracks': `${req.get('Host')}/user/${
+            req.params.spotify_id
+        }/top-tracks`,
+        'Top Artists': `${req.get('Host')}/user/${
+            req.params.spotify_id
+        }/top-artists`,
+    })
+}
+
 userController.recentlyPlayed = async (req, res) => {
     let svgDB = await userModel.getSVG(
         req.params.spotify_id,

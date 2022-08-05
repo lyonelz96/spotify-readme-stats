@@ -17,7 +17,7 @@ let state = null
 
 export const authController = {}
 
-authController.login = (req, res) => {
+authController.authorize = (req, res) => {
     state = nanoid()
     const scope = 'user-read-recently-played user-top-read user-read-private'
 
@@ -34,7 +34,7 @@ authController.login = (req, res) => {
 
 authController.authCallback = async (req, res) => {
     if (req.query['error'] || req.query['state'] !== state) {
-        res.redirect('/#' + new URLSearchParams({ error: 'state_mismatch' }))
+        res.status(400).send({ message: 'State Mismatch' })
     } else {
         state = null
 
@@ -66,25 +66,20 @@ authController.authCallback = async (req, res) => {
             )
 
             if (await userModel.find(user.id)) {
-                await userModel.updateRefreshToken(
+                await userModel.updateTokens(
                     user.id,
-                    authData.refresh_token
+                    authData.refresh_token,
+                    authData.access_token
                 )
             } else {
-                await userModel.create(user.id, authData.refresh_token)
+                await userModel.create(
+                    user.id,
+                    authData.refresh_token,
+                    authData.access_token
+                )
             }
 
-            const now = new Date()
-
-            req.session.user = {
-                spotify_id: user.id,
-                spotify_display_name: user.display_name,
-                access_token: authData.access_token,
-                // Represented in ms since EPOCH
-                token_expire_date: now.setMinutes(now.getMinutes() + 50), // 50 minutes from now
-            }
-
-            res.redirect('/')
+            res.redirect(`/user/${user.id}`)
         } catch (error) {
             console.error(error)
         }
