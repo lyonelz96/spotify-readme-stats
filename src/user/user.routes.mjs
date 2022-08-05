@@ -6,11 +6,14 @@ export const userRouter = express.Router()
 
 const middleware = [
     userMiddleware.checkIfUserExistsInDB,
-    userMiddleware.checkIfUserIsTheSameAsSession,
     userMiddleware.setCacheControlHeader,
 ]
 
-userRouter.get('/user/:spotify_id', userController.index)
+userRouter.get(
+    '/user/:spotify_id',
+    userMiddleware.checkIfUserExistsInDB,
+    userController.index
+)
 
 userRouter.get(
     '/user/:spotify_id/recently-played',
