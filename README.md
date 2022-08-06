@@ -83,3 +83,7 @@ go and here we are.
   - In order to not spam Spotify I put a 'time limit' where you can only request the newest information if it's been 'X' amount of time since the last time a request to Spotify has been sent
   - For the Recently Played widget that is 15 mins (Since this information is updated more often)
   - For the rest is once a day
+
+## What Is My Spotify ID?
+  - Go to [https://www.spotify.com/account/overview/](https://www.spotify.com/account/overview/)
+  - Your ID should be your username (Different from your display name)
