@@ -22,6 +22,17 @@ if (process.env.NODE_ENV === 'production') {
 app.use(authRouter)
 app.use(userRouter)
 
+app.get('/', (req, res) => {
+    res.send({
+        auth: `${req.get('Host')}/auth/authorize`,
+        svgs: {
+            'Recently Played': `${req.get('Host')}/user/:spotify_id/recently-played`,
+            'Top Tracks': `${req.get('Host')}/user/:spotify_id/top-tracks`,
+            'Top Artists': `${req.get('Host')}/user/:spotify_id/top-artists`,
+        },
+    })
+})
+
 app.listen(port, () => {
     if (process.env.NODE_ENV === 'development') {
         console.log(`Listening on ${port}`)
