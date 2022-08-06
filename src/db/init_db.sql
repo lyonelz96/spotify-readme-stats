@@ -24,6 +24,6 @@ CREATE TABLE svgs (
     request_date BIGINT NOT NULL
 );
 
-INSERT INTO svg_types (svg_type) VALUES ('TopTracks');
-INSERT INTO svg_types (svg_type) VALUES ('TopArtists');
-INSERT INTO svg_types (svg_type) VALUES ('RecentlyPlayed');
+INSERT INTO svg_types (svg_type) VALUES ('Top Tracks');
+INSERT INTO svg_types (svg_type) VALUES ('Top Artists');
+INSERT INTO svg_types (svg_type) VALUES ('Recently Played');
