@@ -19,6 +19,20 @@ userController.index = (req, res) => {
     })
 }
 
+userController.destroy = async (req, res) => {
+    const spotify_id = req.params.spotify_id
+    const secret = req.body.secret
+
+    try {
+        await userModel.destroy(spotify_id, secret)
+        res.send({
+            message: `User with id: ${spotify_id} and all svgs deleted from database`,
+        })
+    } catch (error) {
+        console.error(error)
+    }
+}
+
 userController.svg = (svg_type) => async (req, res) => {
     let svgDB = await userModel.getSVG(req.params.spotify_id, svg_type)
 

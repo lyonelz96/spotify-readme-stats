@@ -7,7 +7,8 @@ CREATE TABLE users (
     spotify_id TEXT UNIQUE NOT NULL,
     refresh_token TEXT UNIQUE NOT NULL,
     access_token TEXT UNIQUE NOT NULL,
-    access_token_expire_date BIGINT NOT NULL
+    access_token_expire_date BIGINT NOT NULL,
+    secret TEXT UNIQUE NOT NULL
 );
 
 CREATE TABLE svg_types (
@@ -23,9 +24,9 @@ CREATE TABLE svgs (
     request_date BIGINT NOT NULL
 );
 
-INSERT INTO users (spotify_id, refresh_token, access_token, access_token_expire_date) VALUES('spotify_id_1', 'refresh_token_1', 'access_token_1', 123);
-INSERT INTO users (spotify_id, refresh_token, access_token, access_token_expire_date) VALUES('spotify_id_2', 'refresh_token_2', 'access_token_2', 123);
-INSERT INTO users (spotify_id, refresh_token, access_token, access_token_expire_date) VALUES('spotify_id_3', 'refresh_token_3', 'access_token_3', 123);
+INSERT INTO users (spotify_id, refresh_token, access_token, access_token_expire_date, secret) VALUES('spotify_id_1', 'refresh_token_1', 'access_token_1', 123, 'secret_1');
+INSERT INTO users (spotify_id, refresh_token, access_token, access_token_expire_date, secret) VALUES('spotify_id_2', 'refresh_token_2', 'access_token_2', 123, 'secret_2');
+INSERT INTO users (spotify_id, refresh_token, access_token, access_token_expire_date, secret) VALUES('spotify_id_3', 'refresh_token_3', 'access_token_3', 123, 'secret_3');
 
 INSERT INTO svg_types (svg_type) VALUES ('TopTracks');
 INSERT INTO svg_types (svg_type) VALUES ('TopArtists');

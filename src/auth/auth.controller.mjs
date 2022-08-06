@@ -58,28 +58,34 @@ authController.authCallback = async (req, res) => {
 
         try {
             const authRes = await axios.post(TOKEN_ENDPOINT, data, config)
-
             const authData = authRes.data
 
             const user = await spotifyModel.getUserProfile(
                 authData.access_token
             )
 
+            const secret = nanoid()
+
             if (await userModel.find(user.id)) {
-                await userModel.updateTokens(
+                await userModel.update(
                     user.id,
                     authData.refresh_token,
-                    authData.access_token
+                    authData.access_token,
+                    secret
                 )
             } else {
                 await userModel.create(
                     user.id,
                     authData.refresh_token,
-                    authData.access_token
+                    authData.access_token,
+                    secret
                 )
             }
 
-            res.redirect(`/user/${user.id}`)
+            res.send({
+                message: 'Make sure you save the secret for database deletion',
+                secret: secret,
+            })
         } catch (error) {
             console.error(error)
         }
