@@ -1,6 +1,6 @@
 # spotify-readme-stats
 
-## What the hell is this?
+## What Is This?
 
 Server made in ExpressJS that serves svg 'widgets' that contain information
 about your Spotify such as Top Artists, Recently Played and Top Artists. You
@@ -19,7 +19,7 @@ some server and just displaying it using github markdown. Decided to give it a
 go and here we are.
 
 ## How To Use
-  - Go to [https://spotify-readme-stats.herokuapp.com/login](https://spotify-readme-stats.herokuapp.com/login)
+  - Go to [https://spotify-readme-stats.herokuapp.com/auth/authorize](https://spotify-readme-stats.herokuapp.com/auth/authorize)
     - This should take you through the Auth flow for Spotify
     - The scopes I require are the following:
       - user-read-recently-played
@@ -27,8 +27,8 @@ go and here we are.
       - user-top-read
         - To get your top artists/tracks
       - user-read-private
-        - To get your spotify id and your display name
-   - Once you go through the auth it should redirect you to the homepage where you'll see your display name and your spotify id
+        - To get your spotify id
+   - **Once you go through the auth it should redirect you to an endpoint that returns a message and a secret. This secret is important if you want to delete your information from the database later on. (You can get a new secret by going through the authorization again)**
    - The following 3 endpoints are available for you (Replace :spotify_id with your actual spotify_id)
      - `/user/:spotify_id/recently-played`
        - Will serve the recently played svg
@@ -36,14 +36,13 @@ go and here we are.
        - Will serve the top artists svg
      - `/user/:spotify_id/top-tracks`
        - Will serve the top tracks svg
-   - To use those svgs in a README.md you just have to treat like any other img on the web
+   - To use those svgs in a README.md you just have to treat it like any other img on the web
      - `![svg](svg url goes here)`
        - E.g. `![Recently Played](https://spotify-readme-stats.herokuapp.com/user/:spotify_id/recently-played)`
        - `[![Recently Played](https://spotify-readme-stats.herokuapp.com/user/:spotify_id/recently-played)](https://spotify-readme-stats.herokuapp.com/user/:spotify_id/recently-played)`
          - To go directly to the website instead of githubs camo thingy
+     - You can also use an `<img>` tag
     
-  
-
 ## How To Work With It Locally
   - You need [Docker](https://www.docker.com/) and [Node JS](https://nodejs.org/en/) installed
   - Clone repo whichever way you prefer `git clone https://github.com/lyonelz96/spotify-readme-stats.git`
@@ -61,18 +60,26 @@ go and here we are.
   - Run `npm run dev` to start the development server
   - Go to [localhost:3000](http://localhost:3000) and hopefully you're up and running!
   
-## Future
-My curiosity was satisfied with this project and I'm ready to move on to the next thing. That being said if I encounter any major bug I'll look into it and try to fix it. 
+## How To Deauthorize The App
+  - Go to the app section of your Spotify Profile [https://www.spotify.com/account/apps/](https://www.spotify.com/account/apps/)
+  - Look for `spotify-readme-stats` and click `Remove Access`
 
-You are more than welcome to open any issues and PRs!
+## How To Remove Your Account And SVGs From The Database
+  - You need the secret you got when you authorized the app
+  - Using curl you can send a DELETE request
+    - `curl -X "DELETE" "https://spotify-readme-stats.herokuapp.com/user/:spotify_id" -H "Content-Type: application/json" -d '{"secret": "Secret Goes Here"}'`
+    - Replace `:spotify_id` with your actual spotify_id and `Secret Goes Here` with the actual secret string
+  - You should hopefully get a success message back, you can verify if the account is still found by going to one of the svg endpoints or to the `/user/:spotify_id` endpoint
+  
+## SVG Won't Load
+  - I am using Heroku's free hosting at the moment and so unfortunately if the site is inactive it will go to sleep. The images won't load because the site doesn't wake up fast enough.
 
-Here's some stuff that I may tackle at some point or I just couldn't figure it out:
-  - A way to 'auto' update the widgets.
-    - As of now the only way to update the widgets is to actually go to the website that serves them while being logged in/authorized. Every widget has a 'time limit' in order to not spam Spotify lol
-      - Recently Played can be refreshed every 15 mins
-      - Top Artists and Top Tracks can be refreshed every 4 weeks
-    - If you go to the website that serves the svg while authorized and it hasn't been that long for the svg you're looking for you'll just get the one stored in the DB and not make a request to spotify
-    - My original thought was to update them if possible by just visiting your github readme but I couldn't really figure out how to make an 'authorized' request from the markdown file on github to the website (I don't even know if it's possible at this point) and just gave up on figuring it out haha
-    
-  - Clean up some of the code
-    - Specifically the user controller. I just think it's pretty ugly and there's some repetition that could be cleaned up. I just have to figure out a way to generalize the generation of the SVGS since each one needs a bit different pieces of information but the 'flow' on how it's done is essentially the same.
+## How Do The Widgets Update?
+  - Whenever you go to a widgets endpoint (`https://spotify-readme-stats.herokuapp.com/user/:spotify_id/recently-played` for example) one of two things will happen:
+    - If the widget is updateable it will send a request to Spotify to get the newest information
+    - If it isn't, the SVG stored in the database will be served
+
+### When Is A Widget Updateable?
+  - In order to not spam Spotify I put a 'time limit' where you can only request the newest information if it's been 'X' amount of time since the last time a request to Spotify has been sent
+  - For the Recently Played widget that is 15 mins (Since this information is updated more often)
+  - For the rest is once a day
