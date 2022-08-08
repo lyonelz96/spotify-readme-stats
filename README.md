@@ -1,24 +1,30 @@
 # spotify-readme-stats
 
 ## What Is This?
-
 Server made in ExpressJS that serves svg 'widgets' that contain information
 about your Spotify such as Top Artists, Recently Played and Top Artists. You
 can use these to prettify your github profile!
 
-### Examples
+### Live Examples
 [![Recently Played](https://spotify-readme-stats.herokuapp.com/user/o7nem2dkxnsibr6fi9w1jo9v4/recently-played)](https://spotify-readme-stats.herokuapp.com/user/o7nem2dkxnsibr6fi9w1jo9v4/recently-played)
 [![Top Tracks](https://spotify-readme-stats.herokuapp.com/user/o7nem2dkxnsibr6fi9w1jo9v4/top-tracks)](https://spotify-readme-stats.herokuapp.com/user/o7nem2dkxnsibr6fi9w1jo9v4/top-tracks)
 [![Top Artists](https://spotify-readme-stats.herokuapp.com/user/o7nem2dkxnsibr6fi9w1jo9v4/top-artists)](https://spotify-readme-stats.herokuapp.com/user/o7nem2dkxnsibr6fi9w1jo9v4/top-artists)
 
-## Why?
+### Static Examples
+![Recently Played](./assets/images/RecentlyPlayed.svg)
+![Top Tracks](./assets/images/TopTracks.svg)
+![Top Artists](./assets/images/TopArtists.svg)
 
+## Why?
 I saw people have these fancy widgets on their github profile and I was curious
 how they were getting that. Turns out they were just serving an svg through
 some server and just displaying it using github markdown. Decided to give it a
 go and here we are.
 
 ## How To Use
+  - **The app is in [development mode](https://developer.spotify.com/documentation/web-api/guides/development-extended-quota-modes/)
+  so I can't have more than 25 users using the app and I have to add you
+  manually to give you access to authorize**
   - Go to [https://spotify-readme-stats.herokuapp.com/auth/authorize](https://spotify-readme-stats.herokuapp.com/auth/authorize)
     - This should take you through the Auth flow for Spotify
     - The scopes I require are the following:
