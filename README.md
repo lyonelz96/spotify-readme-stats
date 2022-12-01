@@ -25,7 +25,7 @@ go and here we are.
   - **The app is in [development mode](https://developer.spotify.com/documentation/web-api/guides/development-extended-quota-modes/)
   so I can't have more than 25 users using the app and I have to add you
   manually to give you access to authorize**
-  - Go to [https://spotify-readme-stats.herokuapp.com/auth/authorize](https://spotify-readme-stats.herokuapp.com/auth/authorize)
+  - Go to [Hosting Website Pending...]() Heroku is no longer offering a free tier so I don't have this project hosted anywhere atm.
     - This should take you through the Auth flow for Spotify
     - The scopes I require are the following:
       - user-read-recently-played
